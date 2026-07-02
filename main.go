@@ -29,11 +29,11 @@ func (t *Track) String() string {
 	if err != nil {
 		return fmt.Sprintf("Error encountered: %s", err)
 	}
-	return fmt.Sprintf("%-8s %-8s %s", t.Name, t.Artist, s)
+	return fmt.Sprintf("%-10s | %-13s | %s", t.Name, t.Artist, s)
 }
 
 func main() {
-	tracks := []Track{
+	tracks := []*Track{
 		{Name: "Mananatili", Artist: "Cup of Jose", DurationMs: 257000},
 		{Name: "Prinsesa", Artist: "OPM", DurationMs: 300001},
 		{Name: "Notos", Artist: "The Oh Hellos", DurationMs: 351006},
