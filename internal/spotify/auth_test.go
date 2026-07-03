@@ -45,7 +45,7 @@ func TestNormalize(t *testing.T) {
 			Explicit:   false,
 			Album: Album{
 				ID:          "album123",
-				Name:       "Test Album",
+				Name:        "Test Album",
 				ReleaseDate: "2024-01-01",
 			},
 			Artists: []Artist{

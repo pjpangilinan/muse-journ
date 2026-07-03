@@ -23,9 +23,9 @@ func TestUpsertArtist(t *testing.T) {
 	defer db.Close()
 
 	id, err := db.UpsertArtist(&Artist{
-		SpotifyID: "spotify:artist:test123",
-		Name:      "Test Artist",
-		Genres:    `["electronic"]`,
+		SpotifyID:  "spotify:artist:test123",
+		Name:       "Test Artist",
+		Genres:     `["electronic"]`,
 		Popularity: 75,
 	})
 	if err != nil {
@@ -44,9 +44,9 @@ func TestUpsertArtist(t *testing.T) {
 	}
 
 	dupeID, err := db.UpsertArtist(&Artist{
-		SpotifyID: "spotify:artist:test123",
-		Name:      "Test Artist Updated",
-		Genres:    `["electronic","synthwave"]`,
+		SpotifyID:  "spotify:artist:test123",
+		Name:       "Test Artist Updated",
+		Genres:     `["electronic","synthwave"]`,
 		Popularity: 80,
 	})
 	if err != nil {

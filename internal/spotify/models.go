@@ -18,8 +18,8 @@ type ErrorResponse struct {
 }
 
 type RecentlyPlayedResponse struct {
-	Items []PlayHistoryItem `json:"items"`
-	Next  string            `json:"next"`
+	Items   []PlayHistoryItem `json:"items"`
+	Next    string            `json:"next"`
 	Cursors struct {
 		After  string `json:"after"`
 		Before string `json:"before"`
@@ -35,32 +35,32 @@ type PlayHistoryItem struct {
 }
 
 type Track struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	DurationMS int    `json:"duration_ms"`
-	Explicit   bool   `json:"explicit"`
-	DiscNumber int    `json:"disc_number"`
-	TrackNumber int   `json:"track_number"`
-	Popularity int    `json:"popularity"`
-	PreviewURL string `json:"preview_url"`
-	Album      Album  `json:"album"`
-	Artists    []Artist `json:"artists"`
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	DurationMS  int      `json:"duration_ms"`
+	Explicit    bool     `json:"explicit"`
+	DiscNumber  int      `json:"disc_number"`
+	TrackNumber int      `json:"track_number"`
+	Popularity  int      `json:"popularity"`
+	PreviewURL  string   `json:"preview_url"`
+	Album       Album    `json:"album"`
+	Artists     []Artist `json:"artists"`
 }
 
 type Album struct {
-	ID           string   `json:"id"`
-	Name         string   `json:"name"`
-	ReleaseDate  string   `json:"release_date"`
-	TotalTracks  int      `json:"total_tracks"`
-	Images       []Image  `json:"images"`
-	Artists      []Artist `json:"artists"`
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	ReleaseDate string   `json:"release_date"`
+	TotalTracks int      `json:"total_tracks"`
+	Images      []Image  `json:"images"`
+	Artists     []Artist `json:"artists"`
 }
 
 type Artist struct {
-	ID         string   `json:"id"`
-	Name       string   `json:"name"`
-	Genres     []string `json:"genres"`
-	Followers  struct {
+	ID        string   `json:"id"`
+	Name      string   `json:"name"`
+	Genres    []string `json:"genres"`
+	Followers struct {
 		Total int `json:"total"`
 	} `json:"followers"`
 	Popularity int `json:"popularity"`
@@ -79,43 +79,43 @@ type Context struct {
 }
 
 type TrackDetails struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	DurationMS int    `json:"duration_ms"`
-	Explicit   bool   `json:"explicit"`
-	DiscNumber int    `json:"disc_number"`
-	TrackNumber int   `json:"track_number"`
-	Popularity int    `json:"popularity"`
-	PreviewURL string `json:"preview_url"`
-	Album      Album  `json:"album"`
-	Artists    []Artist `json:"artists"`
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	DurationMS  int      `json:"duration_ms"`
+	Explicit    bool     `json:"explicit"`
+	DiscNumber  int      `json:"disc_number"`
+	TrackNumber int      `json:"track_number"`
+	Popularity  int      `json:"popularity"`
+	PreviewURL  string   `json:"preview_url"`
+	Album       Album    `json:"album"`
+	Artists     []Artist `json:"artists"`
 }
 
 type NormalizedPlay struct {
-	TrackName      string
-	TrackSpotifyID string
-	DurationMS     int
-	Explicit       bool
-	DiscNumber     int
-	TrackNumber    int
-	Popularity     int
-	PreviewURL     string
-	AlbumSpotifyID string
-	AlbumName      string
-	ReleaseDate    string
-	TotalTracks    int
-	CoverURL       string
-	ArtistIDs      []string
-	ArtistNames    []string
-	ArtistGenres   []string
-	ArtistFollowers []int
+	TrackName          string
+	TrackSpotifyID     string
+	DurationMS         int
+	Explicit           bool
+	DiscNumber         int
+	TrackNumber        int
+	Popularity         int
+	PreviewURL         string
+	AlbumSpotifyID     string
+	AlbumName          string
+	ReleaseDate        string
+	TotalTracks        int
+	CoverURL           string
+	ArtistIDs          []string
+	ArtistNames        []string
+	ArtistGenres       []string
+	ArtistFollowers    []int
 	ArtistPopularities []int
-	PlayedAt       string
-	Device         string
-	Shuffle        bool
-	Repeat         string
-	Context        string
-	ContextType    string
+	PlayedAt           string
+	Device             string
+	Shuffle            bool
+	Repeat             string
+	Context            string
+	ContextType        string
 }
 
 func (t *Track) CoverURL() string {

@@ -223,17 +223,17 @@ func runDashboard(cfg *config.Config) {
 		topArtists, _ := analyticsDB.TopArtists(5)
 
 		data := map[string]any{
-			"Plays":           plays,
-			"TotalPlays":      totalPlays,
-			"TotalMin":        totalMinutes,
-			"Streak":          streak,
-			"Daily":           daily,
-			"FilterPlays":     totalPlaysFiltered,
-			"FilterMin":       totalMinFiltered,
-			"TopArtists":      topArtists,
-			"CurrentRange":    rangeVal,
-			"From":            from,
-			"To":              to,
+			"Plays":        plays,
+			"TotalPlays":   totalPlays,
+			"TotalMin":     totalMinutes,
+			"Streak":       streak,
+			"Daily":        daily,
+			"FilterPlays":  totalPlaysFiltered,
+			"FilterMin":    totalMinFiltered,
+			"TopArtists":   topArtists,
+			"CurrentRange": rangeVal,
+			"From":         from,
+			"To":           to,
 		}
 
 		if err := tmpl.ExecuteTemplate(w, "index.html", data); err != nil {

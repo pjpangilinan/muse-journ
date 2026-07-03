@@ -28,14 +28,14 @@ type DailySummary struct {
 }
 
 type MonthlySummary struct {
-	YearMonth    string `json:"year_month"`
-	TotalPlays   int    `json:"total_plays"`
-	ListeningMin int    `json:"listening_minutes"`
-	UniqueArtists int   `json:"unique_artists"`
-	UniqueAlbums int    `json:"unique_albums"`
-	UniqueTracks int    `json:"unique_tracks"`
-	TopArtist    string `json:"top_artist"`
-	TopTrack     string `json:"top_track"`
+	YearMonth     string `json:"year_month"`
+	TotalPlays    int    `json:"total_plays"`
+	ListeningMin  int    `json:"listening_minutes"`
+	UniqueArtists int    `json:"unique_artists"`
+	UniqueAlbums  int    `json:"unique_albums"`
+	UniqueTracks  int    `json:"unique_tracks"`
+	TopArtist     string `json:"top_artist"`
+	TopTrack      string `json:"top_track"`
 }
 
 type ArtistRanking struct {

@@ -94,13 +94,13 @@ func main() {
 		monthly, _ := analyticsDB.MonthlySummary(time.Now().UTC().Format("2006-01"))
 
 		writeJSON(w, map[string]any{
-			"total_plays":     totalPlays,
-			"total_minutes":   totalMinutes,
+			"total_plays":      totalPlays,
+			"total_minutes":    totalMinutes,
 			"listening_streak": streak,
-			"top_artists":     topArtists,
-			"hourly_dist":     hourlyDist,
-			"daily":           daily,
-			"monthly":         monthly,
+			"top_artists":      topArtists,
+			"hourly_dist":      hourlyDist,
+			"daily":            daily,
+			"monthly":          monthly,
 		})
 	})
 
