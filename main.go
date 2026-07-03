@@ -339,14 +339,14 @@ func runBuildSite(cfg *config.Config) {
 	}
 
 	data := map[string]any{
-		"StaticData":     string(staticJSON),
-		"Daily":          daily,
-		"TotalPlays":     totalPlays,
-		"TotalMin":       totalMinutes,
-		"Streak":         streak,
-		"FilterPlays":    len(plays),
-		"FilterMin":      totalMinFiltered,
-		"TopArtists":     topArtists,
+		"StaticData":  string(staticJSON),
+		"Daily":       daily,
+		"TotalPlays":  totalPlays,
+		"TotalMin":    totalMinutes,
+		"Streak":      streak,
+		"FilterPlays": len(plays),
+		"FilterMin":   totalMinFiltered,
+		"TopArtists":  topArtists,
 	}
 
 	if err := os.MkdirAll("_site", 0755); err != nil {
