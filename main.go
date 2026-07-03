@@ -324,18 +324,29 @@ func runBuildSite(cfg *config.Config) {
 	}
 	totalMinFiltered /= 60000
 
+	staticJSON, err := json.Marshal(map[string]any{
+		"plays":       plays,
+		"totalPlays":  totalPlays,
+		"totalMin":    totalMinutes,
+		"streak":      streak,
+		"daily":       daily,
+		"filterPlays": len(plays),
+		"filterMin":   totalMinFiltered,
+		"topArtists":  topArtists,
+	})
+	if err != nil {
+		log.Fatalf("marshal static data: %v", err)
+	}
+
 	data := map[string]any{
-		"Plays":        plays,
-		"TotalPlays":   totalPlays,
-		"TotalMin":     totalMinutes,
-		"Streak":       streak,
-		"Daily":        daily,
-		"FilterPlays":  len(plays),
-		"FilterMin":    totalMinFiltered,
-		"TopArtists":   topArtists,
-		"CurrentRange": "",
-		"From":         "",
-		"To":           "",
+		"StaticData":     string(staticJSON),
+		"Daily":          daily,
+		"TotalPlays":     totalPlays,
+		"TotalMin":       totalMinutes,
+		"Streak":         streak,
+		"FilterPlays":    len(plays),
+		"FilterMin":      totalMinFiltered,
+		"TopArtists":     topArtists,
 	}
 
 	if err := os.MkdirAll("_site", 0755); err != nil {

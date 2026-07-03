@@ -4,38 +4,36 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Muse Journal</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23adc6ff'><path d='M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z'/></svg>">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#0b1326;--bg-card:rgba(19,27,46,0.85);--bg-card-header:rgba(23,31,51,0.9);--bg-hover:rgba(34,42,61,0.9);--bg-input:#222a3d;--bg-header:rgba(11,19,38,0.92);--bg-glass:rgba(19,27,46,0.6);--bg-striped:rgba(11,19,38,0.4);--text:#dae2fd;--text-secondary:#c2c6d6;--text-muted:#424754;--border:rgba(66,71,84,0.6);--border-light:rgba(66,71,84,0.25);--primary:#adc6ff;--primary-glow:rgba(173,198,255,0.15);--btn-bg:rgba(66,71,84,0.25);--btn-hover:rgba(66,71,84,0.45);--cal-bg:rgba(66,71,84,0.15);--cal-hover:rgba(66,71,84,0.35)}
 html:not(.dark){--bg:#f0f4f8;--bg-card:rgba(255,255,255,0.9);--bg-card-header:rgba(240,242,245,0.95);--bg-hover:rgba(229,231,235,0.95);--bg-input:#e5e7eb;--bg-header:rgba(255,255,255,0.95);--bg-glass:rgba(255,255,255,0.7);--bg-striped:rgba(0,0,0,0.03);--text:#1a1c2e;--text-secondary:#6b7280;--text-muted:#9ca3af;--border:rgba(209,213,219,0.8);--border-light:rgba(0,0,0,0.06);--primary:#3b82f6;--primary-glow:rgba(59,130,246,0.12);--btn-bg:rgba(209,213,219,0.5);--btn-hover:rgba(156,163,175,0.4);--cal-bg:rgba(209,213,219,0.3);--cal-hover:rgba(156,163,175,0.4)}
-body{background-color:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+body{background-color:var(--bg);color:var(--text);font-family:Inter,sans-serif;margin:0}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:.75rem}
-.glass{backdrop-filter:blur(12px)}
-.card-hover{transition:all .2s}
-.card-hover:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
+.glass{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card-hover{transition:all .2s}.card-hover:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
 .btn-range{transition:all .15s;cursor:pointer;padding:6px 10px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:none;text-align:center;text-decoration:none;display:block}
-.btn-range:hover{background:var(--btn-hover)}
-.btn-range.active{background:var(--primary);color:#002e6a;font-weight:600}
-.track-link{transition:color .15s;cursor:pointer;text-decoration:none}
-.track-link:hover{color:var(--primary)}
-.cal-btn{display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;cursor:pointer;background:var(--cal-bg);color:var(--text);transition:all .15s;border:none;padding:4px 0;font-family:'Inter',sans-serif;height:32px;min-width:0}
-.cal-btn:hover{background:var(--cal-hover)}
-.cal-btn.sel{background:var(--primary);color:#fff;font-weight:600}
-.cal-btn.inr{background:var(--primary-glow)}
-.cal-btn.oth{opacity:.2;pointer-events:none}
-.cal-btn.tdy{font-weight:600}
+.btn-range:hover{background:var(--btn-hover)}.btn-range.active{background:var(--primary);color:#002e6a;font-weight:600}
+.track-link{transition:color .15s;cursor:pointer;text-decoration:none}.track-link:hover{color:var(--primary)}
+.cal-btn{display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;cursor:pointer;background:var(--cal-bg);color:var(--text);transition:all .15s;border:none;padding:4px 0;font-family:'Inter',sans-serif;height:32px}
+.cal-btn:hover{background:var(--cal-hover)}.cal-btn.sel{background:var(--primary);color:#fff;font-weight:600}
+.cal-btn.inr{background:var(--primary-glow)}.cal-btn.oth{opacity:.2;pointer-events:none}.cal-btn.tdy{font-weight:600}
 .load-btn{transition:all .15s;cursor:pointer;padding:8px 20px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:1px solid var(--border);text-align:center;width:100%}
 .load-btn:hover{background:var(--btn-hover);color:var(--text)}
 </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
+{{if .StaticData}}
+<script>window.__DATA__={{.StaticData}};</script>
+{{end}}
 <script>(function(){var s=localStorage.getItem('theme');if(s==='light')document.documentElement.classList.remove('dark')})();
 function toggleTheme(){var h=document.documentElement,i=document.getElementById('themeIcon');if(h.classList.contains('dark')){h.classList.remove('dark');localStorage.setItem('theme','light');i.textContent='light_mode'}else{h.classList.add('dark');localStorage.setItem('theme','dark');i.textContent='dark_mode'}}</script>
 
-<header class="w-full top-0 sticky border-b z-50 glass" style="background-color:var(--bg-header);border-color:var(--border)">
+<header class="w-full top-0 sticky border-b z-50 glass" style="background-color:var(--bg-header);border-color:var(--border);-webkit-backdrop-filter:blur(12px)">
 <div class="flex justify-between items-center px-4 sm:px-8 py-3 w-full max-w-[1280px] mx-auto">
 <div class="flex items-center"><span class="material-symbols-outlined" style="color:var(--primary);font-size:1.5rem">graphic_eq</span></div>
 <button onclick="toggleTheme()" class="p-2 rounded-full" style="color:var(--text-secondary);background:var(--bg-glass);border:1px solid var(--border-light)"><span class="material-symbols-outlined text-lg" id="themeIcon">dark_mode</span></button>
@@ -47,94 +45,17 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 <div class="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 space-y-4">
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-<aside class="lg:col-span-4 space-y-4">
-<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">
-<h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Time Range</h3>
-<div class="grid grid-cols-5 gap-1.5 mb-3">
-<a href="/?range=today" class="btn-range {{if eq .CurrentRange "today"}}active{{end}}">Day</a>
-<a href="/?range=week" class="btn-range {{if eq .CurrentRange "week"}}active{{end}}">Week</a>
-<a href="/?range=month" class="btn-range {{if eq .CurrentRange "month"}}active{{end}}">Month</a>
-<a href="/?range=year" class="btn-range {{if eq .CurrentRange "year"}}active{{end}}">Year</a>
-<a href="/" class="btn-range {{if eq .CurrentRange ""}}active{{end}}">All</a>
-</div>
-<form method="get" id="calForm" action="/"><input type="hidden" name="from" id="f"><input type="hidden" name="to" id="t"></form>
-<div style="background:var(--bg-glass);border-radius:10px;padding:10px">
-<div class="flex justify-between items-center mb-2">
-<button onclick="cM(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">‹</button>
-<span id="cL" class="font-['JetBrains_Mono'] text-xs" style="color:var(--text)"></span>
-<button onclick="cM(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">›</button>
-</div>
-<div class="grid grid-cols-7 gap-1 mb-1 text-center font-['JetBrains_Mono'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>
-<div class="grid grid-cols-7 gap-1" id="cG"></div>
-</div>
-</div>
-
-<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">
-<h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Filtered</h3>
-<div class="space-y-2">
-<div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-['Inter'] text-sm" style="color:var(--text-secondary)">Plays</span><span class="font-['Geist'] text-lg font-semibold" style="color:var(--text)">{{.FilterPlays}}</span></div>
-<div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-['Inter'] text-sm" style="color:var(--text-secondary)">Minutes</span><span class="font-['Geist'] text-lg font-semibold" style="color:var(--text)">{{.FilterMin}}</span></div>
-<div class="flex justify-between py-1.5"><span class="font-['Inter'] text-sm" style="color:var(--text-secondary)">Streak</span><span class="font-['Geist'] text-lg font-semibold" style="color:var(--text)">{{.Streak}}d</span></div>
-</div>
-</div>
-
-<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">
-<h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Top Artists</h3>
-<div class="space-y-1">
-{{range .TopArtists}}
-<div class="flex justify-between items-center py-1.5 px-2 rounded-lg" style="border-bottom:1px solid var(--border-light)">
-<a href="https://open.spotify.com/artist/{{.SpotifyID}}" target="_blank" rel="noopener" class="track-link font-['Inter'] text-sm truncate" style="color:var(--text)">{{.ArtistName}}</a>
-<span class="font-['JetBrains_Mono'] text-xs shrink-0 ml-2" style="color:var(--text-muted)">{{.PlayCount}}</span>
-</div>
-{{end}}
-</div>
-</div>
-</aside>
+<aside id="sidePanel" class="lg:col-span-4 space-y-4"></aside>
 
 <section class="lg:col-span-8 space-y-4">
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)">
-<span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Plays</span><p class="font-['Geist'] text-2xl font-semibold mt-0.5" style="color:var(--text)">{{.TotalPlays}}</p></div>
-<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)">
-<span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Minutes</span><p class="font-['Geist'] text-2xl font-semibold mt-0.5" style="color:var(--text)">{{.TotalMin}}</p></div>
-<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)">
-<span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Streak</span><p class="font-['Geist'] text-2xl font-semibold mt-0.5" style="color:var(--text)">{{.Streak}}d</p></div>
-<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)">
-<span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Today</span><p class="font-['Geist'] text-2xl font-semibold mt-0.5" style="color:var(--text)">{{if .Daily}}{{.Daily.TotalPlays}}{{else}}0{{end}}</p></div>
-</div>
-
-<div class="rounded-xl border glass overflow-hidden min-h-[300px]" style="background-color:var(--bg-card);border-color:var(--border)">
+<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+<div class="rounded-xl border glass overflow-hidden" style="background-color:var(--bg-card);border-color:var(--border)">
 <div class="border-b p-3 sm:p-4" style="background-color:var(--bg-card-header);border-color:var(--border)">
 <h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
 <div class="hidden sm:grid grid-cols-12 gap-3 px-5 py-2.5 border-b text-xs uppercase tracking-wider" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
 <div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
-<div id="playList">
-{{range .Plays}}
-<div class="transition-colors" style="border-bottom:1px solid var(--border-light)">
-<a href="https://open.spotify.com/track/{{.Track.SpotifyID}}" target="_blank" rel="noopener" class="track-link block no-underline" style="color:inherit">
-<div class="flex sm:hidden items-center gap-3 px-3 py-2.5">
-<span class="font-['JetBrains_Mono'] text-[11px] shrink-0 w-[80px]" style="color:var(--text-muted)">{{.PlayedAt | formatTime}}</span>
-<div class="min-w-0 flex-1 flex flex-wrap items-baseline gap-x-1.5">
-<span class="font-['Inter'] text-sm font-medium truncate max-w-full" style="color:var(--text)">{{.Track.Name}}</span>
-<span class="font-['Inter'] text-[11px]" style="color:var(--text-secondary)">· {{.Artists}}</span>
-{{if .Album}}<span class="font-['Inter'] text-[11px] w-full" style="color:var(--text-muted)">{{.Album.Name}}</span>{{end}}
-</div>
-</div>
-<div class="hidden sm:grid grid-cols-12 gap-3 items-center px-5 py-3">
-<div class="col-span-2 font-['JetBrains_Mono'] text-xs" style="color:var(--text-muted)">{{.PlayedAt | formatTime}}</div>
-<div class="col-span-4 font-['Inter'] text-sm truncate font-medium" style="color:var(--text)">{{.Track.Name}}</div>
-<div class="col-span-3 font-['Inter'] text-sm truncate" style="color:var(--text-secondary)">{{.Artists}}</div>
-<div class="col-span-3 font-['Inter'] text-sm truncate" style="color:var(--text-secondary)">{{if .Album}}{{.Album.Name}}{{end}}</div>
-</div>
-</a>
-</div>
-{{else}}
-<div class="px-5 py-10 text-center font-['Inter'] text-sm italic" style="color:var(--text-secondary)">No plays in this range.</div>
-{{end}}
-</div>
-<div id="loadMoreC" class="p-3 sm:p-4 text-center">
-<button onclick="loadMore()" class="load-btn" id="loadBtn">Load More</button>
-</div>
+<div id="playList"></div>
+<div id="loadMoreC" class="p-3 sm:p-4 text-center"><button onclick="loadMore()" class="load-btn" id="loadBtn">Loading...</button></div>
 </div>
 </section>
 
@@ -144,73 +65,216 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 </div>
 
 <script>
-var off={{len .Plays}},fr='{{.From}}',to='{{.To}}',rg='{{.CurrentRange}}';
-
-function loadMore(){
-  var b=document.getElementById('loadBtn');b.disabled=1;b.textContent='...';
-  var p=new URLSearchParams({limit:'8',offset:off});
-  if(fr&&to){p.set('from',fr);p.set('to',to)}
-  if(rg)p.set('range',rg);
-  fetch('/api/plays?'+p).then(function(r){
-    if(!r.ok)throw new Error('HTTP '+r.status+': '+r.statusText);
-    return r.json();
-  }).then(function(pl){
-    if(!pl.length){b.textContent='All loaded';b.disabled=1;return}
-    var el=document.getElementById('playList');
-    for(var i=0;i<pl.length;i++){
-      var x=pl[i],tm=fmtLocal(x.played_at||''),an=(x.artists||''),al=x.album?x.album.name:'',sp=x.track.spotify_id||'',tn=esc(x.track.name||''),ae=esc(an),ale=esc(al);
-      var mob='<div class="flex sm:hidden items-center gap-3 px-3 py-2.5"><span class="font-[\'JetBrains_Mono\'] text-[11px] shrink-0 w-[80px]" style="color:var(--text-muted)">'+tm+'</span><div class="min-w-0 flex-1 flex flex-wrap items-baseline gap-x-1.5"><span class="font-[\'Inter\'] text-sm font-medium truncate max-w-full" style="color:var(--text)">'+tn+'</span><span class="font-[\'Inter\'] text-[11px]" style="color:var(--text-secondary)">· '+ae+'</span>'+(al?'<span class="font-[\'Inter\'] text-[11px] w-full" style="color:var(--text-muted)">'+ale+'</span>':'')+'</div></div>';
-      var des='<div class="hidden sm:grid grid-cols-12 gap-3 items-center px-5 py-3"><div class="col-span-2 font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text-muted)">'+tm+'</div><div class="col-span-4 font-[\'Inter\'] text-sm truncate font-medium" style="color:var(--text)">'+tn+'</div><div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+ae+'</div><div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+ale+'</div></div>';
-      var row=document.createElement('div');row.className='transition-colors';row.style.cssText='border-bottom:1px solid var(--border-light)';
-      row.innerHTML='<a href="https://open.spotify.com/track/'+sp+'" target="_blank" class="track-link block no-underline" style="color:inherit">'+mob+des+'</a>';
-      el.appendChild(row);
-    }
-    off+=pl.length;b.disabled=0;b.textContent='Load More';
-    if(pl.length<8){b.textContent='All loaded';b.disabled=1}
-  }).catch(function(e){
-    b.disabled=0;b.textContent='Error: '+e.message;
-  });
-}
+var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
+var pageSize=8,page=0,filtered=[];
 
 function fmtLocal(s){
   if(!s)return'';
   var d=new Date(s),mo=d.getMonth(),da=d.getDate(),h=d.getHours(),mi=d.getMinutes();
-  var mons='Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-  return mons[mo]+' '+da+' '+String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0');
+  return 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')[mo]+' '+da+' '+String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0');
+}
+function esc(s){var e=document.createElement('div');e.textContent=s;return e.innerHTML}
+function pad2(n){return String(n).padStart(2,'0')}
+
+function init(){
+  if(DATA){
+    allPlays=DATA.plays||[];
+    allArtists=DATA.topArtists||[];
+    stats={totalPlays:DATA.totalPlays||0,totalMin:DATA.totalMin||0,streak:DATA.streak||0,
+      daily:DATA.daily,filterPlays:DATA.filterPlays||0,filterMin:DATA.filterMin||0};
+    filtered=allPlays.slice();
+    render();
+  }else{
+    Promise.all([
+      fetch('/api/plays?limit=200').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()}),
+      fetch('/api/stats').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
+    ]).then(function(res){
+      allPlays=res[0]||[];stats=res[1]||{};allArtists=stats.topArtists||[];
+      filtered=allPlays.slice();
+      document.getElementById('loadBtn').textContent='Load More';
+      render();
+    }).catch(function(e){
+      document.getElementById('loadBtn').textContent='Error: '+e.message;
+    });
+  }
 }
 
-function esc(s){var e=document.createElement('div');e.textContent=s;return e.innerHTML}
+function render(){
+  renderSidebar();
+  renderCards();
+  renderPlays();
+}
+
+function renderSidebar(){
+  var h='';
+  // Range buttons
+  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Time Range</h3>';
+  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1.5 mb-3">';
+  var rgs=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
+  for(var i=0;i<rgs.length;i++){
+    h+='<a href="#" onclick="setRange(\''+rgs[i].k+'\');return false" class="btn-range" data-rg="'+rgs[i].k+'">'+rgs[i].l+'</a>';
+  }
+  h+='</div>';
+  // Calendar
+  h+='<div style="background:var(--bg-glass);border-radius:10px;padding:10px">';
+  h+='<div class="flex justify-between items-center mb-2">';
+  h+='<button onclick="calMonth(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">‹</button>';
+  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
+  h+='<button onclick="calMonth(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">›</button>';
+  h+='</div>';
+  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
+  h+='<div class="grid grid-cols-7 gap-1" id="cG"></div></div></div>';
+  // Filtered stats
+  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Filtered</h3>';
+  h+='<div class="space-y-2"><div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
+  h+='<div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
+  h+='<div class="flex justify-between py-1.5"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
+  // Top Artists
+  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Top Artists</h3><div id="artistList" class="space-y-1"></div></div>';
+  document.getElementById('sidePanel').innerHTML=h;
+  renderArtists();
+  calInit();
+}
+
+function renderArtists(){
+  var el=document.getElementById('artistList'),h='';
+  for(var i=0;i<allArtists.length;i++){
+    var a=allArtists[i];
+    h+='<div class="flex justify-between items-center py-1.5 px-2 rounded-lg" style="border-bottom:1px solid var(--border-light)">';
+    if(a.spotify_id){
+      h+='<a href="https://open.spotify.com/artist/'+esc(a.spotify_id)+'" target="_blank" rel="noopener" class="track-link font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</a>';
+    }else{
+      h+='<span class="font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</span>';
+    }
+    h+='<span class="font-[\'JetBrains_Mono\'] text-xs shrink-0 ml-2" style="color:var(--text-muted)">'+a.play_count+'</span></div>';
+  }
+  if(el)el.innerHTML=h;
+}
+
+function renderCards(){
+  var d=stats.daily||{};
+  document.getElementById('statCards').innerHTML=
+    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Plays</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.totalPlays||0)+'</p></div>'+
+    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Minutes</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.totalMin||0)+'</p></div>'+
+    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Streak</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.streak||0)+'d</p></div>'+
+    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Today</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(d.total_plays||0)+'</p></div>';
+}
+
+function renderPlays(){
+  var start=0,end=Math.min(pageSize,filtered.length);
+  if(page>0)start=page*pageSize;
+  end=Math.min(start+pageSize,filtered.length);
+  var list=document.getElementById('playList'),h='';
+  for(var i=start;i<end;i++){
+    var p=filtered[i],al=p.album?p.album.name:'',an=(p.artists||''),sp=p.track?p.track.spotify_id:'',tn=p.track?p.track.name:'';
+    h+='<div class="transition-colors" style="border-bottom:1px solid var(--border-light)">';
+    h+='<a href="https://open.spotify.com/track/'+esc(sp)+'" target="_blank" rel="noopener" class="track-link block no-underline" style="color:inherit">';
+    h+='<div class="flex sm:hidden items-center gap-3 px-3 py-2.5"><span class="font-[\'JetBrains_Mono\'] text-[11px] shrink-0 w-[80px]" style="color:var(--text-muted)">'+fmtLocal(p.played_at)+'</span>';
+    h+='<div class="min-w-0 flex-1 flex flex-wrap items-baseline gap-x-1.5"><span class="font-[\'Inter\'] text-sm font-medium truncate max-w-full" style="color:var(--text)">'+esc(tn)+'</span>';
+    h+='<span class="font-[\'Inter\'] text-[11px]" style="color:var(--text-secondary)">· '+esc(an)+'</span>';
+    if(al)h+='<span class="font-[\'Inter\'] text-[11px] w-full" style="color:var(--text-muted)">'+esc(al)+'</span>';
+    h+='</div></div>';
+    h+='<div class="hidden sm:grid grid-cols-12 gap-3 items-center px-5 py-3">';
+    h+='<div class="col-span-2 font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text-muted)">'+fmtLocal(p.played_at)+'</div>';
+    h+='<div class="col-span-4 font-[\'Inter\'] text-sm truncate font-medium" style="color:var(--text)">'+esc(tn)+'</div>';
+    h+='<div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+esc(an)+'</div>';
+    h+='<div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+esc(al)+'</div>';
+    h+='</div></a></div>';
+  }
+  if(!h)h='<div class="px-5 py-10 text-center font-[\'Inter\'] text-sm italic" style="color:var(--text-secondary)">No plays in this range.</div>';
+  list.innerHTML=h;
+  var btn=document.getElementById('loadBtn');
+  if(end>=filtered.length){btn.textContent='All loaded';btn.disabled=1}
+  else{btn.textContent='Load More';btn.disabled=0}
+  // Update filtered stats
+  var fPlays=filtered.length,fMin=0;
+  for(var i=0;i<filtered.length;i++){fMin+=((filtered[i].track&&filtered[i].track.duration_ms)||0)}
+  document.getElementById('fPlays').textContent=fPlays;
+  document.getElementById('fMin').textContent=Math.floor(fMin/60000);
+  document.getElementById('fStreak').textContent=(stats.streak||0)+'d';
+}
+
+function loadMore(){
+  page++;
+  renderPlays();
+}
+
+// Range filtering
+var curRange='';
+
+function setRange(rg){
+  curRange=rg;
+  // Highlight active button
+  var btns=document.querySelectorAll('#rangeBtns .btn-range');
+  for(var i=0;i<btns.length;i++){btns[i].classList.remove('active')}
+  for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-rg')===rg){btns[i].classList.add('active');break}}
+  // Filter
+  var now=new Date(),from=null;
+  if(rg==='today'){from=new Date(now.getFullYear(),now.getMonth(),now.getDate())}
+  else if(rg==='week'){from=new Date(now.getTime()-7*86400000)}
+  else if(rg==='month'){from=new Date(now.getTime()-30*86400000)}
+  else if(rg==='year'){from=new Date(now.getTime()-365*86400000)}
+  if(from){
+    filtered=[];
+    for(var i=0;i<allPlays.length;i++){
+      var d=new Date(allPlays[i].played_at);
+      if(d>=from)filtered.push(allPlays[i]);
+    }
+  }else{
+    filtered=allPlays.slice();
+  }
+  page=0;
+  renderPlays();
+}
 
 // Calendar
-var cD=fr?new Date(fr+'T12:00:00'):new Date,cF=fr||null,cT=to||null;
-if(!cT&&cF)cT=cF;
+var calD=new Date(),calF=null,calT=null;
 
-function cM(n){cD.setMonth(cD.getMonth()+n);cR()}
-function cR(){
-  var y=cD.getFullYear(),m=cD.getMonth(),fD=new Date(y,m,1).getDay(),dm=new Date(y,m+1,0).getDate(),dp=new Date(y,m,0).getDate();
+function calInit(){
+  if(!document.getElementById('cG'))return;
+  calRender();
+}
+function calMonth(n){calD.setMonth(calD.getMonth()+n);calRender()}
+function calRender(){
+  var y=calD.getFullYear(),m=calD.getMonth(),fD=new Date(y,m,1).getDay(),dm=new Date(y,m+1,0).getDate(),dp=new Date(y,m,0).getDate();
   var wd=fD===0?6:fD-1;
   var td=new Date();td=new Date(td.getFullYear(),td.getMonth(),td.getDate());
-  var tds=td.getFullYear()+'-'+String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');
+  var tds=td.getFullYear()+'-'+pad2(td.getMonth()+1)+'-'+pad2(td.getDate());
   document.getElementById('cL').textContent=new Date(y,m).toLocaleDateString('en',{month:'long',year:'numeric'});
   var h='',i,d,ds,cls;
   for(i=0;i<wd;i++){d=dp-wd+1+i;h+='<div class="cal-btn oth">'+d+'</div>'}
   for(d=1;d<=dm;d++){
-    ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    ds=y+'-'+pad2(m+1)+'-'+pad2(d);
     cls='cal-btn';
     if(ds===tds)cls+=' tdy';
-    if(cF&&cT&&ds>=cF&&ds<=cT)cls+=' inr';
-    if(ds===cF||ds===cT)cls+=' sel';
-    h+='<div class="'+cls+'" onclick="cP(\''+ds+'\')">'+d+'</div>';
+    if(calF&&calT&&ds>=calF&&ds<=calT)cls+=' inr';
+    if(ds===calF||ds===calT)cls+=' sel';
+    h+='<div class="'+cls+'" onclick="calPick(\''+ds+'\')">'+d+'</div>';
   }
   var rem=(7-(wd+dm)%7)%7;
   for(i=1;i<=rem;i++)h+='<div class="cal-btn oth">'+i+'</div>';
   document.getElementById('cG').innerHTML=h;
 }
-function cP(d){
-  document.getElementById('f').value=d;document.getElementById('t').value=d;
-  document.getElementById('calForm').submit();
+function calPick(d){
+  if(!calF||(calF&&calT)){calF=d;calT=null;calRender();return}
+  if(d<calF){calT=calF;calF=d}else calT=d;
+  // Filter by date range
+  filtered=[];
+  for(var i=0;i<allPlays.length;i++){
+    var pd=allPlays[i].played_at.slice(0,10);
+    if(pd>=calF&&pd<=calT)filtered.push(allPlays[i]);
+  }
+  page=0;
+  curRange='';
+  var btns=document.querySelectorAll('#rangeBtns .btn-range');
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove('active');
+  renderPlays();
+  calRender();
 }
-cR();
+init();
 </script>
 </body>
 </html>
