@@ -1,0 +1,42 @@
+name: Collector
+
+on:
+  schedule:
+    - cron: '0 */16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: Restore Go cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+
+      - name: Run collector
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: go run ./cmd/collector/
+
+      - name: Commit and push
+        run: |
+          git config user.name "muse-journ-bot"
+          git config user.email "bot@muse-journ.local"
+          git add music.db
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "bot: collect plays $(date -u '+%Y-%m-%dT%H:%M:%SZ')" && git push)

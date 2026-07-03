@@ -8,3 +8,11 @@ lessons/
 learning-records/
 .opencode/
 sample.html
+.serena/
+index.html
+music.db
+*.db
+*.db-journal
+*.db-wal
+dashboard-server
+

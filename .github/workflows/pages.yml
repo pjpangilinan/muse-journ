@@ -1,0 +1,41 @@
+name: Deploy Dashboard
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: [Collector]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+
+      - name: Build static site
+        env:
+          DB_PATH: music.db
+        run: go run . build-site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
