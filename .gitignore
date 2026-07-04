@@ -16,6 +16,7 @@ music.db
 *.db-wal
 dashboard-server
 auth-server
-_site/
+_site/index.html
+_site/.*.html
 .env*
 screenshot.png
