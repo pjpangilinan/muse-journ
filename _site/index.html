@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Muse Journal</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23adc6ff'><path d='M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z'/></svg>">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0b1326;--bg-card:rgba(19,27,46,0.85);--bg-card-header:rgba(23,31,51,0.9);--bg-hover:rgba(34,42,61,0.9);--bg-input:#222a3d;--bg-header:rgba(11,19,38,0.92);--bg-glass:rgba(19,27,46,0.6);--bg-striped:rgba(11,19,38,0.4);--text:#dae2fd;--text-secondary:#c2c6d6;--text-muted:#424754;--border:rgba(66,71,84,0.6);--border-light:rgba(66,71,84,0.25);--primary:#adc6ff;--primary-glow:rgba(173,198,255,0.15);--btn-bg:rgba(66,71,84,0.25);--btn-hover:rgba(66,71,84,0.45);--cal-bg:rgba(66,71,84,0.15);--cal-hover:rgba(66,71,84,0.35)}
+html:not(.dark){--bg:#f0f4f8;--bg-card:rgba(255,255,255,0.9);--bg-card-header:rgba(240,242,245,0.95);--bg-hover:rgba(229,231,235,0.95);--bg-input:#e5e7eb;--bg-header:rgba(255,255,255,0.95);--bg-glass:rgba(255,255,255,0.7);--bg-striped:rgba(0,0,0,0.03);--text:#1a1c2e;--text-secondary:#6b7280;--text-muted:#9ca3af;--border:rgba(209,213,219,0.8);--border-light:rgba(0,0,0,0.06);--primary:#3b82f6;--primary-glow:rgba(59,130,246,0.12);--btn-bg:rgba(209,213,219,0.5);--btn-hover:rgba(156,163,175,0.4);--cal-bg:rgba(209,213,219,0.3);--cal-hover:rgba(156,163,175,0.4)}
+body{background-color:var(--bg);color:var(--text);font-family:Inter,sans-serif;margin:0}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:.75rem}
+.glass{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card-hover{transition:all .2s}.card-hover:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--primary-glow)}
+.btn-range{transition:all .15s;cursor:pointer;padding:6px 10px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:none;text-align:center;text-decoration:none;display:block}
+.btn-range:hover{background:var(--btn-hover)}.btn-range.active{background:var(--primary);color:#002e6a;font-weight:600}
+.track-link{transition:color .15s;cursor:pointer;text-decoration:none}.track-link:hover{color:var(--primary)}
+.cal-btn{display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:13px;cursor:pointer;background:var(--cal-bg);color:var(--text);transition:all .15s;border:none;padding:4px 0;font-family:'Inter',sans-serif;height:44px}
+.cal-btn:hover{background:var(--cal-hover)}.cal-btn.sel{background:var(--primary);color:#fff;font-weight:600}
+.cal-btn.inr{background:var(--primary-glow)}.cal-btn.oth{opacity:.2;pointer-events:none}.cal-btn.tdy{font-weight:600}
+.load-btn{transition:all .15s;cursor:pointer;padding:8px 20px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:1px solid var(--border);text-align:center;width:100%}
+.load-btn:hover{background:var(--btn-hover);color:var(--text)}
+</style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+<script>window.__DATA__={"daily":{"date":"2026-07-04","total_plays":15,"listening_minutes":43,"unique_artists":8,"unique_albums":8,"unique_tracks":9,"top_artist":"Ricky Montgomery","top_track":"Cabo","top_album":"Montgomery Ricky","new_discoveries":0},"filterMin":217,"filterPlays":65,"plays":[{"id":51,"played_at":"2026-07-04T02:11:38.829Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":52,"played_at":"2026-07-04T02:09:16.044Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":53,"played_at":"2026-07-04T02:06:53.288Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":54,"played_at":"2026-07-04T02:04:30.544Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":55,"played_at":"2026-07-04T02:02:07.760Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":56,"played_at":"2026-07-04T01:59:45.047Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":57,"played_at":"2026-07-04T01:57:22.248Z","device":"","context":"","track":{"id":51,"spotify_id":"1wAj295BWDUClM0Ndecs4o","name":"Cabo","duration_ms":147760,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":51,"spotify_id":"25paSmOYSF03s81DCNqQn3","name":"Montgomery Ricky","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27367ee332af483acd134fd6fd0","created_at":""},"artists":"Ricky Montgomery"},{"id":58,"played_at":"2026-07-04T01:53:39.134Z","device":"","context":"","track":{"id":58,"spotify_id":"0SjjcXfArhzePhEzDNkY8z","name":"Anybody Have a Map?","duration_ms":146853,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":20,"spotify_id":"0LhDyJXelg31FKLW5GDcKi","name":"Dear Evan Hansen (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273eefa3ed06dec22db89d0e793","created_at":""},"artists":"Rachel Bay Jones"},{"id":59,"played_at":"2026-07-04T01:51:17.341Z","device":"","context":"","track":{"id":59,"spotify_id":"4ZZsSnVQXTMfYB2unKx7me","name":"Thus Always To Tyrants","duration_ms":219510,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":59,"spotify_id":"6wYIs564dOi2lOT9bGYPLK","name":"Dear Wormwood","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27339521e60d8d11783d9f5e3b1","created_at":""},"artists":"The Oh Hellos"},{"id":60,"played_at":"2026-07-04T01:47:42.836Z","device":"","context":"","track":{"id":60,"spotify_id":"7Gxf7hWyHaQjCTXtqOkNNV","name":"No Longer You","duration_ms":167700,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":60,"spotify_id":"1JjlC7lq1Oq8KCFybHRnIH","name":"EPIC: The Underworld Saga (Official Concept Album)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fba95a78235cb1d98f516b20","created_at":""},"artists":"Jorge Rivera-Herrans"},{"id":61,"played_at":"2026-07-04T01:45:00.088Z","device":"","context":"","track":{"id":61,"spotify_id":"2RvYhBQn9P62o3rUh4pXmN","name":"First Burn","duration_ms":182827,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":61,"spotify_id":"2JLd1DMun7vVdv4aobqzoN","name":"Hamildrops: The Complete Collection","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273c102c700ba2149943d3b41ed","created_at":""},"artists":"Ari Afsar"},{"id":62,"played_at":"2026-07-04T01:42:02.268Z","device":"","context":"","track":{"id":62,"spotify_id":"1fffWiFwKibt8lvSlGz9SG","name":"HOMESICK","duration_ms":170484,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":62,"spotify_id":"3YiqDcJoSTFWuHB87yVD8V","name":"Internet hometown hero","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273051c714fe8f8e635e0c183f5","created_at":""},"artists":"MICO"},{"id":63,"played_at":"2026-07-04T01:39:16.788Z","device":"","context":"","track":{"id":63,"spotify_id":"4B3qvzOMzLQXLeYgPsG3KA","name":"Burn","duration_ms":225240,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Phillipa Soo"},{"id":64,"played_at":"2026-07-04T01:35:36.549Z","device":"","context":"","track":{"id":64,"spotify_id":"6nkcPGa0sr24NFCc5l5UjE","name":"If I Could Tell Her","duration_ms":248653,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":20,"spotify_id":"0LhDyJXelg31FKLW5GDcKi","name":"Dear Evan Hansen (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273eefa3ed06dec22db89d0e793","created_at":""},"artists":"Ben Platt"},{"id":65,"played_at":"2026-07-04T01:31:32.903Z","device":"","context":"","track":{"id":65,"spotify_id":"2APQm1il15vtv1PocTNtqC","name":"Legendary","duration_ms":194442,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":65,"spotify_id":"4UtfcgffG3YquiY83t3xxm","name":"EPIC: The Wisdom Saga (Official Concept Album)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b2738a0f23ca8a1affae8ef4c355","created_at":""},"artists":"Jorge Rivera-Herrans"},{"id":1,"played_at":"2026-07-03T09:26:21.460Z","device":"","context":"","track":{"id":1,"spotify_id":"3EG9FJ0ToLfgnc1IG2Z1wz","name":"SWEET / I THOUGHT YOU WANTED TO DANCE (feat. Brent Faiyaz \u0026 Fana Hues)","duration_ms":588139,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":1,"spotify_id":"45ba6QAtNrdv6Ke4MFOKk9","name":"CALL ME IF YOU GET LOST","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273940aa635eea98719f6ca4ad9","created_at":""},"artists":"Tyler, The Creator"},{"id":2,"played_at":"2026-07-03T09:17:52.025Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":3,"played_at":"2026-07-03T01:50:10.049Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":4,"played_at":"2026-07-03T01:48:03.319Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":5,"played_at":"2026-07-03T01:45:20.803Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":6,"played_at":"2026-07-03T01:42:38.321Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":7,"played_at":"2026-07-03T01:39:55.712Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":8,"played_at":"2026-07-03T01:37:13.189Z","device":"","context":"","track":{"id":8,"spotify_id":"4BoTrCdVPZHU4iBC0kcid7","name":"Requiem","duration_ms":259693,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":8,"spotify_id":"6hDxdAyBmHZO0ClRUI5wQs","name":"Requiem [from Dear Evan Hansen (Original Broadway Cast Recording)]","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273c06c0516604387df548a32c7","created_at":""},"artists":"Laura Dreyfuss"},{"id":9,"played_at":"2026-07-03T01:32:58.490Z","device":"","context":"","track":{"id":9,"spotify_id":"1mGO8rwCE9zk7H06OxcU5m","name":"History Has Its Eyes on You","duration_ms":97050,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Christopher Jackson"},{"id":10,"played_at":"2026-07-03T01:31:26.437Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":11,"played_at":"2026-07-02T11:00:24.540Z","device":"","context":"","track":{"id":11,"spotify_id":"7qfoq1JFKBUEIvhqOHzuqX","name":"Non-Stop","duration_ms":385438,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Leslie Odom Jr."},{"id":12,"played_at":"2026-07-02T10:57:10.857Z","device":"","context":"","track":{"id":12,"spotify_id":"2sEq2rC3ynYsT49x7utWnd","name":"Dear Theodosia","duration_ms":184004,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Leslie Odom Jr."},{"id":13,"played_at":"2026-07-02T10:54:11.780Z","device":"","context":"","track":{"id":13,"spotify_id":"7EqpEBPOohgk7NnKvBGFWo","name":"Wait for It","duration_ms":193749,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Leslie Odom Jr."},{"id":14,"played_at":"2026-07-02T10:51:03.043Z","device":"","context":"","track":{"id":14,"spotify_id":"3nJYcY9yvKP8Oi2Ml8brXt","name":"Right Hand Man","duration_ms":321696,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Lin-Manuel Miranda"},{"id":15,"played_at":"2026-07-02T10:45:46.304Z","device":"","context":"","track":{"id":15,"spotify_id":"2G9lekfCh83S0lt2yfffBz","name":"Farmer Refuted","duration_ms":112742,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Thayne Jasperson"},{"id":16,"played_at":"2026-07-02T10:43:58.652Z","device":"","context":"","track":{"id":16,"spotify_id":"0NJWhm3hUwIZSy5s0TGJ8q","name":"The Story of Tonight","duration_ms":91980,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Lin-Manuel Miranda"},{"id":17,"played_at":"2026-07-02T10:42:26.636Z","device":"","context":"","track":{"id":17,"spotify_id":"4cxvludVmQxryrnx1m9FqL","name":"My Shot","duration_ms":333154,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Lin-Manuel Miranda"},{"id":18,"played_at":"2026-07-02T10:36:53.457Z","device":"","context":"","track":{"id":18,"spotify_id":"6dr7ekfhlbquvsVY8D7gyk","name":"Aaron Burr, Sir","duration_ms":156630,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":9,"spotify_id":"1kCHru7uhxBUdzkm4gzRQc","name":"Hamilton (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d72fb5571087bca0a2fed008","created_at":""},"artists":"Lin-Manuel Miranda"},{"id":19,"played_at":"2026-07-02T10:34:21.822Z","device":"","context":"","track":{"id":19,"spotify_id":"63Q9hAFTga7rqYRrAhwIyR","name":"Waving Through A Window","duration_ms":236809,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":19,"spotify_id":"61PmcCYa4hA34roDjvTgbk","name":"Waving Through A Window (from Dear Evan Hansen [Original Broadway Cast Recording])","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b2737c5f686d8d79cd85e9d9638d","created_at":""},"artists":"Ben Platt"},{"id":20,"played_at":"2026-07-02T10:30:30.033Z","device":"","context":"","track":{"id":20,"spotify_id":"7FIrk5lA1IalpZ3OtieeC8","name":"Good For You","duration_ms":185146,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":20,"spotify_id":"0LhDyJXelg31FKLW5GDcKi","name":"Dear Evan Hansen (Original Broadway Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273eefa3ed06dec22db89d0e793","created_at":""},"artists":"Rachel Bay Jones"},{"id":21,"played_at":"2026-07-02T10:27:29.871Z","device":"","context":"","track":{"id":21,"spotify_id":"2NKSdHfJ2j3PnSZUJfXa7J","name":"Michael in the Bathroom","duration_ms":297573,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":21,"spotify_id":"6emT6Wf0qivQ0Hyx0gruyr","name":"Be More Chill (Original Cast Recording)","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273d8717c8609d269ad457daa2b","created_at":""},"artists":"George Salazar"},{"id":22,"played_at":"2026-07-02T10:21:12.350Z","device":"","context":"","track":{"id":2,"spotify_id":"6wNGHSpLlHc5N89We4OOKG","name":"THAT GUY","duration_ms":167533,"explicit":true,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":2,"spotify_id":"7IhsOD81HB5CbNwPMt0lWn","name":"THAT GUY","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273ae9e3266fc859c4b2266b3b3","created_at":""},"artists":"Tyler, The Creator"},{"id":23,"played_at":"2026-07-02T02:24:55.868Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":24,"played_at":"2026-07-02T02:22:46.235Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":25,"played_at":"2026-07-02T02:19:38.840Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":26,"played_at":"2026-07-02T02:16:31.420Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":27,"played_at":"2026-07-02T02:13:23.978Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":28,"played_at":"2026-07-02T02:10:16.568Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":29,"played_at":"2026-07-02T02:07:09.198Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":30,"played_at":"2026-07-02T02:04:01.762Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":31,"played_at":"2026-07-02T02:00:54.317Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":32,"played_at":"2026-07-02T01:57:46.968Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":33,"played_at":"2026-07-02T01:54:39.530Z","device":"","context":"","track":{"id":23,"spotify_id":"2SSJPqScObwTcz8XffNRaW","name":"Girls Like Me","duration_ms":192414,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":23,"spotify_id":"0ja8b5YdGJVr6A4SQA2v9U","name":"Sweet Dreamer","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b273fcdbc429164e8c3a4ba50fe9","created_at":""},"artists":"Will Joseph Cook"},{"id":34,"played_at":"2026-07-01T12:41:21.306Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":35,"played_at":"2026-07-01T11:34:13.998Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":36,"played_at":"2026-07-01T11:30:44.109Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":37,"played_at":"2026-07-01T02:22:35.349Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":38,"played_at":"2026-07-01T02:20:36.074Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":39,"played_at":"2026-07-01T02:17:06.159Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":40,"played_at":"2026-07-01T02:13:36.258Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":41,"played_at":"2026-07-01T02:10:06.326Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":42,"played_at":"2026-07-01T02:06:36.349Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":43,"played_at":"2026-07-01T02:03:06.474Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":44,"played_at":"2026-07-01T01:59:36.519Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":45,"played_at":"2026-07-01T01:56:06.596Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":46,"played_at":"2026-07-01T01:52:36.660Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":47,"played_at":"2026-07-01T01:49:06.717Z","device":"","context":"","track":{"id":34,"spotify_id":"51Yt4rDTST2A5GZQR0QCX8","name":"do-re-mi-fa-so-la-ti-do","duration_ms":214930,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":34,"spotify_id":"3QITXlmmt93E176jzVqKUb","name":"Nurture","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b27334dce7e864a4dd44ba72005d","created_at":""},"artists":"Porter Robinson"},{"id":48,"played_at":"2026-06-30T10:53:45.583Z","device":"","context":"","track":{"id":48,"spotify_id":"57RA3JGafJm5zRtKJiKPIm","name":"Are You Bored Yet? (feat. Clairo)","duration_ms":178000,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":48,"spotify_id":"7eed9MBclFPjjjvotfR2e9","name":"Nothing Happens","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b2731df393f4cf29c80c04456f77","created_at":""},"artists":"Wallows"},{"id":49,"played_at":"2026-06-30T10:53:41.127Z","device":"","context":"","track":{"id":48,"spotify_id":"57RA3JGafJm5zRtKJiKPIm","name":"Are You Bored Yet? (feat. Clairo)","duration_ms":178000,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":48,"spotify_id":"7eed9MBclFPjjjvotfR2e9","name":"Nothing Happens","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b2731df393f4cf29c80c04456f77","created_at":""},"artists":"Wallows"},{"id":50,"played_at":"2026-06-30T10:53:21.861Z","device":"","context":"","track":{"id":48,"spotify_id":"57RA3JGafJm5zRtKJiKPIm","name":"Are You Bored Yet? (feat. Clairo)","duration_ms":178000,"explicit":false,"disc_number":0,"track_number":0,"popularity":0,"preview_url":"","album_id":0,"created_at":""},"album":{"id":48,"spotify_id":"7eed9MBclFPjjjvotfR2e9","name":"Nothing Happens","release_date":"","total_tracks":0,"cover_url":"https://i.scdn.co/image/ab67616d0000b2731df393f4cf29c80c04456f77","created_at":""},"artists":"Wallows"}],"streak":5,"topArtists":[{"artist_name":"Porter Robinson","play_count":14,"spotify_id":"3dz0NnIZhtKKeXZxLOxCam"},{"artist_name":"Will Joseph Cook","play_count":11,"spotify_id":"3YO2a6i2cfdFbgxk2HDfPe"},{"artist_name":"Tyler, The Creator","play_count":9,"spotify_id":"4V8LLVI7PbaPR0K2TGSxFF"},{"artist_name":"Ricky Montgomery","play_count":7,"spotify_id":"0ZUvK7zGdXLd78mQr3t1Tw"},{"artist_name":"Lin-Manuel Miranda","play_count":4,"spotify_id":"4aXXDj9aZnlshx7mzj3W1N"}],"totalMin":217,"totalPlays":65};</script>
+
+<script>(function(){var s=localStorage.getItem('theme');if(s==='light')document.documentElement.classList.remove('dark')})();
+function toggleTheme(){var h=document.documentElement,i=document.getElementById('themeIcon');if(h.classList.contains('dark')){h.classList.remove('dark');localStorage.setItem('theme','light');i.textContent='light_mode'}else{h.classList.add('dark');localStorage.setItem('theme','dark');i.textContent='dark_mode'}}</script>
+
+<header class="w-full top-0 sticky border-b z-50 glass" style="background-color:var(--bg-header);border-color:var(--border);-webkit-backdrop-filter:blur(12px)">
+<div class="flex justify-between items-center px-3 sm:px-5 py-1.5 w-full max-w-[1280px] mx-auto">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined" style="color:var(--primary);font-size:1.3rem">graphic_eq</span></div>
+<div id="headerStats" class="hidden sm:flex items-center justify-center gap-4 text-[11px] flex-1 mx-2" style="color:var(--text-muted)">
+
+<span style="color:var(--text-secondary)">Today's Artist: <b id="hArtist" style="color:var(--text);font-weight:500">Ricky Montgomery</b></span>
+<span style="color:var(--text-secondary)">| Today's Song: <b id="hTrack" style="color:var(--text);font-weight:500">Cabo</b></span>
+<span style="color:var(--text-secondary)">| Today's Album: <b id="hAlbum" style="color:var(--text);font-weight:500">Montgomery Ricky</b></span>
+
+</div>
+<button onclick="toggleTheme()" class="w-7 h-7 flex items-center justify-center rounded-full" style="color:var(--text-secondary);background:var(--bg-glass);border:1px solid var(--border-light)"><span class="material-symbols-outlined" style="font-size:1.1rem" id="themeIcon">dark_mode</span></button>
+</div>
+</header>
+
+<div class="flex flex-1 w-full max-w-[1400px] mx-auto">
+<main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-y-auto lg:overflow-hidden">
+<div class="flex-1 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-3 p-3 sm:p-5 pt-4 sm:pt-6 lg:overflow-hidden items-start" style="min-height:0">
+
+<div id="sidePanel" class="flex flex-col gap-3 lg:overflow-hidden"></div>
+
+<section class="flex flex-col gap-3 min-w-0">
+<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
+<div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">
+<div class="border-b px-3 sm:px-4 py-1.5 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
+<h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
+<div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-1.5 border-b text-xs uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
+<div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
+<div id="playList" class="flex-1 overflow-y-auto"></div>
+<div id="loadMoreC" class="p-1.5 sm:p-2 text-center flex items-center justify-center gap-2 shrink-0"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
+</div>
+</section>
+
+</div>
+</main>
+</div>
+</section>
+
+</div>
+</main>
+</div>
+</section>
+
+</div>
+</div>
+</main>
+</div>
+
+<script>
+var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
+var pageSize=11,page=0,filtered=[];
+var RGS=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
+
+function fmtLocal(s){
+  if(!s)return'';
+  var d=new Date(s),mo=d.getMonth(),da=d.getDate(),h=d.getHours(),mi=d.getMinutes();
+  return 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ')[mo]+' '+da+' '+String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0');
+}
+function esc(s){var e=document.createElement('div');e.textContent=s;return e.innerHTML}
+function pad2(n){return String(n).padStart(2,'0')}
+
+function init(){
+  if(DATA){
+    allPlays=DATA.plays||[];
+    allArtists=DATA.topArtists||[];
+    stats={totalPlays:DATA.totalPlays||0,totalMin:DATA.totalMin||0,streak:DATA.streak||0,
+      daily:DATA.daily,filterPlays:DATA.filterPlays||0,filterMin:DATA.filterMin||0};
+    filtered=allPlays.slice();
+    render();
+  }else{
+    Promise.all([
+      fetch('/api/plays?limit=200').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()}),
+      fetch('/api/stats').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
+    ]).then(function(res){
+      allPlays=res[0]||[];stats=res[1]||{};allArtists=stats.topArtists||[];
+      filtered=allPlays.slice();
+      document.getElementById('loadBtn').textContent='Load More';
+      render();
+    }).catch(function(e){
+      document.getElementById('loadBtn').textContent='Error: '+e.message;
+    });
+  }
+}
+
+function render(){
+  renderSidebar();
+  renderCards();
+  renderPlays();
+  renderHeaderStats();
+}
+function renderHeaderStats(){
+  var d=stats.daily||{};
+  var hArtist=document.getElementById('hArtist'),hTrack=document.getElementById('hTrack'),hAlbum=document.getElementById('hAlbum');
+  if(hArtist)hArtist.textContent=d.top_artist||'—';
+  if(hTrack)hTrack.textContent=d.top_track||'—';
+  if(hAlbum)hAlbum.textContent=d.top_album||'—';
+}
+
+function renderSidebar(){
+  var h='';
+  h+='<div class="rounded-xl border glass flex flex-col" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<div class="p-3">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
+  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
+  for(var i=0;i<RGS.length;i++){
+    h+='<a href="#" onclick="setRange(\''+RGS[i].k+'\');return false" class="btn-range" data-rg="'+RGS[i].k+'">'+RGS[i].l+'</a>';
+  }
+  h+='</div>';
+  h+='<div id="activeRange" class="font-[\'Inter\'] text-xs mb-2" style="color:var(--text-muted)">All time</div>';
+  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:8px">';
+  h+='<div class="flex justify-between items-center mb-1">';
+  h+='<button onclick="calMonth(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">‹</button>';
+  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
+  h+='<button onclick="calMonth(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">›</button>';
+  h+='</div>';
+  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
+  h+='<div class="grid grid-cols-7 gap-1" id="cG"></div></div></div></div>';
+  h+='<div class="rounded-xl border glass p-2.5 shrink-0" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[11px] tracking-wider uppercase mb-1" style="color:var(--text);opacity:.8">Filtered</h3>';
+  h+='<div class="space-y-0"><div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
+  h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
+  h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Hours</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fHours">0</span></div>';
+  h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Days</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fDays">0</span></div>';
+  h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Avg/Day</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fAvg">0</span></div>';
+  h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fStreak">0</span></div>';
+  h+='<div class="flex justify-between items-center py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Artist</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopArtist">—</span></div>';
+  h+='<div class="flex justify-between items-center py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Track</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopTrack">—</span></div>';
+  h+='<div class="flex justify-between items-center py-0"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Album</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopAlbum">—</span></div></div></div>';
+  document.getElementById('sidePanel').innerHTML=h;
+  calInit();
+}
+
+function renderArtists(){
+  var el=document.getElementById('artistList'),h='';
+  for(var i=0;i<allArtists.length;i++){
+    var a=allArtists[i];
+    h+='<div class="flex justify-between items-center py-1.5 px-2 rounded-lg" style="border-bottom:1px solid var(--border-light)">';
+    if(a.spotify_id){
+      h+='<a href="https://open.spotify.com/artist/'+esc(a.spotify_id)+'" target="_blank" rel="noopener" class="track-link font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</a>';
+    }else{
+      h+='<span class="font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</span>';
+    }
+    h+='<span class="font-[\'JetBrains_Mono\'] text-xs shrink-0 ml-2" style="color:var(--text-muted)">'+a.play_count+'</span></div>';
+  }
+  if(el)el.innerHTML=h;
+}
+
+function renderCards(){
+  var d=stats.daily||{};
+  document.getElementById('statCards').innerHTML=
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Plays</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.totalPlays||0)+'</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Minutes</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.totalMin||0)+'</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Streak</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.streak||0)+'d</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Today</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(d.total_plays||0)+'</p></div>';
+}
+
+function renderPlays(){
+  var start=0,end=Math.min(pageSize,filtered.length);
+  if(page>0)start=page*pageSize;
+  end=Math.min(start+pageSize,filtered.length);
+  var list=document.getElementById('playList'),h='';
+  for(var i=start;i<end;i++){
+    var p=filtered[i],al=p.album?p.album.name:'',an=(p.artists||''),sp=p.track?p.track.spotify_id:'',tn=p.track?p.track.name:'';
+    h+='<div class="transition-colors" style="border-bottom:1px solid var(--border-light)">';
+    h+='<a href="https://open.spotify.com/track/'+esc(sp)+'" target="_blank" rel="noopener" class="track-link block no-underline" style="color:inherit">';
+    h+='<div class="flex sm:hidden items-center gap-3 px-3 py-2.5"><span class="font-[\'JetBrains_Mono\'] text-[11px] shrink-0 w-[80px]" style="color:var(--text-muted)">'+fmtLocal(p.played_at)+'</span>';
+    h+='<div class="min-w-0 flex-1 flex flex-wrap items-baseline gap-x-1.5"><span class="font-[\'Inter\'] text-sm font-medium truncate max-w-full" style="color:var(--text)">'+esc(tn)+'</span>';
+    h+='<span class="font-[\'Inter\'] text-[11px]" style="color:var(--text-secondary)">· '+esc(an)+'</span>';
+    if(al)h+='<span class="font-[\'Inter\'] text-[11px] w-full" style="color:var(--text-muted)">'+esc(al)+'</span>';
+    h+='</div></div>';
+    h+='<div class="hidden sm:grid grid-cols-12 gap-3 items-center px-5 py-3">';
+    h+='<div class="col-span-2 font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text-muted)">'+fmtLocal(p.played_at)+'</div>';
+    h+='<div class="col-span-4 font-[\'Inter\'] text-sm truncate font-medium" style="color:var(--text)">'+esc(tn)+'</div>';
+    h+='<div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+esc(an)+'</div>';
+    h+='<div class="col-span-3 font-[\'Inter\'] text-sm truncate" style="color:var(--text-secondary)">'+esc(al)+'</div>';
+    h+='</div></a></div>';
+  }
+  if(!h)h='<div class="px-5 py-10 text-center font-[\'Inter\'] text-sm italic" style="color:var(--text-secondary)">No plays in this range.</div>';
+  list.innerHTML=h;
+  var totalPages=Math.ceil(filtered.length/pageSize);
+  var nav=document.getElementById('loadBtn');
+  if(totalPages<=1){
+    nav.innerHTML='<span class="font-[\'Inter\'] text-xs" style="color:var(--text-muted)">'+(filtered.length||'No')+' plays</span>';
+  }else{
+    var l='<button onclick="goPage('+(page-1)+')" class="px-3 py-1 rounded" style="background:var(--btn-bg);color:var(--text-secondary);border:none;cursor:pointer;font-size:14px;'+(page<=0?'opacity:0.3;pointer-events:none':'')+'">‹</button>';
+    l+='<span class="mx-3 font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text-muted)">'+(page+1)+'/'+totalPages+'</span>';
+    l+='<button onclick="goPage('+(page+1)+')" class="px-3 py-1 rounded" style="background:var(--btn-bg);color:var(--text-secondary);border:none;cursor:pointer;font-size:14px;'+(page>=totalPages-1?'opacity:0.3;pointer-events:none':'')+'">›</button>';
+    nav.innerHTML=l;
+  }
+  
+  var fPlays=filtered.length,fMin=0,topArtist='',topTrack='',topAlbum='',topCount=0,artistCount={},trackCount={},albumCount={},daysSet={};
+  for(var i=0;i<filtered.length;i++){
+    var p=filtered[i];fMin+=((p.track&&p.track.duration_ms)||0);
+    var arts=(p.artists||'').split(', ');
+    for(var a=0;a<arts.length;a++){
+      var name=arts[a];if(!name)continue;
+      artistCount[name]=(artistCount[name]||0)+1;
+      if(artistCount[name]>topCount){topCount=artistCount[name];topArtist=name;}
+    }
+    var tn=(p.track&&p.track.name)||'';
+    trackCount[tn]=(trackCount[tn]||0)+1;
+    var al=(p.album&&p.album.name)||'';
+    if(al)albumCount[al]=(albumCount[al]||0)+1;
+    var pd=(p.played_at||'').slice(0,10);
+    if(pd)daysSet[pd]=1;
+  }
+  var tc=0;for(var k in trackCount)if(trackCount[k]>tc){tc=trackCount[k];topTrack=k}
+  var ac=0;for(var k in albumCount)if(albumCount[k]>ac){ac=albumCount[k];topAlbum=k}
+  var days=Object.keys(daysSet).length;
+  var fHours=document.getElementById('fHours');
+  var fDays=document.getElementById('fDays');
+  var fAvg=document.getElementById('fAvg');
+  var fTopTrack=document.getElementById('fTopTrack');
+  var fTopAlbum=document.getElementById('fTopAlbum');
+  document.getElementById('fPlays').textContent=fPlays;
+  document.getElementById('fMin').textContent=Math.floor(fMin/60000);
+  if(fHours)fHours.textContent=Math.floor(fMin/60000/60*10)/10;
+  if(fDays)fDays.textContent=days;
+  if(fAvg)fAvg.textContent=days>0?Math.round(fPlays/days):0;
+  document.getElementById('fStreak').textContent=(stats.streak||0)+'d';
+  var ft=document.getElementById('fTopArtist');
+  if(ft)ft.textContent=topArtist||'—';
+  if(fTopTrack)fTopTrack.textContent=topTrack||'—';
+  if(fTopAlbum)fTopAlbum.textContent=topAlbum||'—';
+  
+  var ar=document.getElementById('activeRange');
+  if(ar){
+    if(curRange==='today')ar.textContent='Showing: Today';
+    else if(curRange==='week')ar.textContent='Showing: Last 7 days';
+    else if(curRange==='month')ar.textContent='Showing: Last 30 days';
+    else if(curRange==='year')ar.textContent='Showing: Last year';
+    else if(calF&&calT){
+      if(calF===calT)ar.textContent='Showing: '+calF;
+      else ar.textContent='Showing: '+calF+' to '+calT;
+    }
+    else ar.textContent='Showing: All time';
+  }
+}
+
+function goPage(n){
+  page=n;
+  renderPlays();
+}
+
+
+var curRange='';
+
+function setRange(rg){
+  curRange=rg;
+  var btns=document.querySelectorAll('#rangeBtns .btn-range');
+  for(var i=0;i<btns.length;i++){btns[i].classList.remove('active')}
+  for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-rg')===rg){btns[i].classList.add('active');break}}
+  var now=new Date(),from=null;
+  if(rg==='today'){from=new Date(now.getFullYear(),now.getMonth(),now.getDate())}
+  else if(rg==='week'){from=new Date(now.getTime()-7*86400000)}
+  else if(rg==='month'){from=new Date(now.getTime()-30*86400000)}
+  else if(rg==='year'){from=new Date(now.getTime()-365*86400000)}
+  if(from){
+    filtered=[];
+    for(var i=0;i<allPlays.length;i++){
+      var d=new Date(allPlays[i].played_at);
+      if(d>=from)filtered.push(allPlays[i]);
+    }
+  }else{
+    filtered=allPlays.slice();
+  }
+  page=0;calF=null;calT=null;
+  renderPlays();renderHeaderStats();calRender();
+}
+
+
+var calD=new Date(),calF=null,calT=null;
+
+function calInit(){
+  calRender();
+}
+function calMonth(n){calD.setMonth(calD.getMonth()+n);calRender()}
+function calRender(){
+  var y=calD.getFullYear(),m=calD.getMonth(),fD=new Date(y,m,1).getDay(),dm=new Date(y,m+1,0).getDate(),dp=new Date(y,m,0).getDate();
+  var wd=fD===0?6:fD-1;
+  var td=new Date();td=new Date(td.getFullYear(),td.getMonth(),td.getDate());
+  var tds=td.getFullYear()+'-'+pad2(td.getMonth()+1)+'-'+pad2(td.getDate());
+  var label=new Date(y,m).toLocaleDateString('en',{month:'long',year:'numeric'});
+  var cl=document.getElementById('cL');if(cl)cl.textContent=label;
+  var h='',i,d,ds,cls;
+  for(i=0;i<wd;i++){d=dp-wd+1+i;h+='<div class="cal-btn oth">'+d+'</div>'}
+  for(d=1;d<=dm;d++){
+    ds=y+'-'+pad2(m+1)+'-'+pad2(d);
+    cls='cal-btn';
+    if(ds===tds)cls+=' tdy';
+    if(calF&&calT&&ds>=calF&&ds<=calT)cls+=' inr';
+    if(ds===calF||ds===calT)cls+=' sel';
+    h+='<div class="'+cls+'" onclick="calPick(\''+ds+'\')">'+d+'</div>';
+  }
+  var rem=(7-(wd+dm)%7)%7;
+  for(i=1;i<=rem;i++)h+='<div class="cal-btn oth">'+i+'</div>';
+  var cg=document.getElementById('cG');if(cg)cg.innerHTML=h;
+}
+function calPick(d){
+  calF=d;calT=d;
+  filtered=[];
+  for(var i=0;i<allPlays.length;i++){
+    var pd=allPlays[i].played_at.slice(0,10);
+    if(pd===d)filtered.push(allPlays[i]);
+  }
+  page=0;curRange='';
+  var btns=document.querySelectorAll('#rangeBtns .btn-range');
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove('active');
+  renderPlays();
+  calRender();
+}
+init();
+</script>
+</body>
+</html>
