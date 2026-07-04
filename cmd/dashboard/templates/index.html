@@ -82,7 +82,7 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
-var pageSize=11,page=0,filtered=[];
+var pageSize=9,page=0,filtered=[];
 var RGS=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
 
 function fmtLocal(s){
@@ -157,9 +157,7 @@ function renderSidebar(){
   h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Days</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fDays">0</span></div>';
   h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Avg/Day</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fAvg">0</span></div>';
   h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fStreak">0</span></div>';
-  h+='<div class="flex justify-between items-center py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Artist</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopArtist">—</span></div>';
-  h+='<div class="flex justify-between items-center py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Track</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopTrack">—</span></div>';
-  h+='<div class="flex justify-between items-center py-0"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Album</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopAlbum">—</span></div></div></div>';
+  h+='<div class="flex justify-between items-center py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Top Track</span><span class="font-[\'Inter\'] text-xs font-medium truncate ml-2" style="color:var(--text);max-width:140px" id="fTopTrack">—</span></div></div></div>';
   document.getElementById('sidePanel').innerHTML=h;
   calInit();
 }
@@ -222,40 +220,27 @@ function renderPlays(){
     nav.innerHTML=l;
   }
   // Update filtered stats
-  var fPlays=filtered.length,fMin=0,topArtist='',topTrack='',topAlbum='',topCount=0,artistCount={},trackCount={},albumCount={},daysSet={};
+  var fPlays=filtered.length,fMin=0,topTrack='',trackCount={},daysSet={};
   for(var i=0;i<filtered.length;i++){
     var p=filtered[i];fMin+=((p.track&&p.track.duration_ms)||0);
-    var arts=(p.artists||'').split(', ');
-    for(var a=0;a<arts.length;a++){
-      var name=arts[a];if(!name)continue;
-      artistCount[name]=(artistCount[name]||0)+1;
-      if(artistCount[name]>topCount){topCount=artistCount[name];topArtist=name;}
-    }
     var tn=(p.track&&p.track.name)||'';
     trackCount[tn]=(trackCount[tn]||0)+1;
-    var al=(p.album&&p.album.name)||'';
-    if(al)albumCount[al]=(albumCount[al]||0)+1;
     var pd=(p.played_at||'').slice(0,10);
     if(pd)daysSet[pd]=1;
   }
   var tc=0;for(var k in trackCount)if(trackCount[k]>tc){tc=trackCount[k];topTrack=k}
-  var ac=0;for(var k in albumCount)if(albumCount[k]>ac){ac=albumCount[k];topAlbum=k}
   var days=Object.keys(daysSet).length;
   var fHours=document.getElementById('fHours');
   var fDays=document.getElementById('fDays');
   var fAvg=document.getElementById('fAvg');
   var fTopTrack=document.getElementById('fTopTrack');
-  var fTopAlbum=document.getElementById('fTopAlbum');
   document.getElementById('fPlays').textContent=fPlays;
   document.getElementById('fMin').textContent=Math.floor(fMin/60000);
-  if(fHours)fHours.textContent=Math.floor(fMin/60000/60*10)/10;
+  if(fHours)fHours.textContent=Math.ceil(fMin/60000/60*10)/10;
   if(fDays)fDays.textContent=days;
   if(fAvg)fAvg.textContent=days>0?Math.round(fPlays/days):0;
   document.getElementById('fStreak').textContent=(stats.streak||0)+'d';
-  var ft=document.getElementById('fTopArtist');
-  if(ft)ft.textContent=topArtist||'—';
   if(fTopTrack)fTopTrack.textContent=topTrack||'—';
-  if(fTopAlbum)fTopAlbum.textContent=topAlbum||'—';
   // Update active range text
   var ar=document.getElementById('activeRange');
   if(ar){
