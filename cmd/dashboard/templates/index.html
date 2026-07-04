@@ -49,11 +49,11 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <div class="flex flex-1 w-full max-w-[1400px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-y-auto lg:overflow-hidden">
-<div class="flex-1 flex flex-col lg:flex-row gap-3 p-3 sm:p-5 pt-4 sm:pt-6 overflow-hidden">
+<div class="flex-1 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-3 p-3 sm:p-5 pt-4 sm:pt-6 lg:overflow-hidden" style="min-height:0">
 
-<div id="sidePanel" class="flex flex-col gap-3 lg:w-[340px] lg:min-w-[300px]"></div>
+<div id="sidePanel" class="flex flex-col gap-3 lg:overflow-hidden"></div>
 
-<section class="flex-1 flex flex-col gap-3 min-w-0">
+<section class="flex flex-col gap-3 min-w-0">
 <div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
 <div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">
 <div class="border-b px-3 sm:px-4 py-1.5 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
@@ -82,7 +82,7 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
-var pageSize=8,page=0,filtered=[];
+var pageSize=10,page=0,filtered=[];
 var RGS=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
 
 function fmtLocal(s){
