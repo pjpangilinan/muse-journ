@@ -49,14 +49,14 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <div class="flex flex-1 overflow-hidden w-full max-w-[1280px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-hidden">
-<div class="flex-1 overflow-y-auto px-2 sm:px-4 pt-4 sm:pt-6 pb-2 sm:pb-3">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-full">
+<div class="flex-1 overflow-y-auto px-3 sm:px-5 pt-4 sm:pt-6 pb-3 sm:pb-4">
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:calc(100vh - 120px)">
 
-<div id="sidePanel" class="lg:col-span-4 flex flex-col gap-3"></div>
+<div id="sidePanel" class="lg:col-span-2 flex flex-col gap-3" style="min-height:0"></div>
 
-<section class="lg:col-span-8 flex flex-col gap-3">
+<section class="lg:col-span-3 flex flex-col gap-3" style="min-height:0">
 <div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
-<div class="rounded-xl border glass flex flex-col flex-1" style="background-color:var(--bg-card);border-color:var(--border)">
+<div class="rounded-xl border glass flex flex-col flex-1" style="background-color:var(--bg-card);border-color:var(--border);min-height:0">
 <div class="border-b px-3 sm:px-4 py-2 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
 <h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
 <div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 border-b text-xs uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
