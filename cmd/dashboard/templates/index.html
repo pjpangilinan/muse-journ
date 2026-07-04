@@ -55,7 +55,7 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 <div class="hidden sm:grid grid-cols-12 gap-3 px-5 py-2.5 border-b text-xs uppercase tracking-wider" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
 <div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
 <div id="playList"></div>
-<div id="loadMoreC" class="p-3 sm:p-4 text-center"><button onclick="loadMore()" class="load-btn" id="loadBtn">Loading...</button></div>
+<div id="loadMoreC" class="p-3 sm:p-4 text-center flex items-center justify-center gap-2"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
 </div>
 </section>
 
@@ -186,9 +186,16 @@ function renderPlays(){
   }
   if(!h)h='<div class="px-5 py-10 text-center font-[\'Inter\'] text-sm italic" style="color:var(--text-secondary)">No plays in this range.</div>';
   list.innerHTML=h;
-  var btn=document.getElementById('loadBtn');
-  if(end>=filtered.length){btn.textContent='All loaded';btn.disabled=1}
-  else{btn.textContent='Load More';btn.disabled=0}
+  var totalPages=Math.ceil(filtered.length/pageSize);
+  var nav=document.getElementById('loadBtn');
+  if(totalPages<=1){
+    nav.innerHTML='<span class="font-[\'Inter\'] text-xs" style="color:var(--text-muted)">'+(filtered.length||'No')+' plays</span>';
+  }else{
+    var l='<button onclick="goPage('+(page-1)+')" class="px-3 py-1 rounded" style="background:var(--btn-bg);color:var(--text-secondary);border:none;cursor:pointer;font-size:14px;'+(page<=0?'opacity:0.3;pointer-events:none':'')+'">‹</button>';
+    l+='<span class="mx-3 font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text-muted)">'+(page+1)+'/'+totalPages+'</span>';
+    l+='<button onclick="goPage('+(page+1)+')" class="px-3 py-1 rounded" style="background:var(--btn-bg);color:var(--text-secondary);border:none;cursor:pointer;font-size:14px;'+(page>=totalPages-1?'opacity:0.3;pointer-events:none':'')+'">›</button>';
+    nav.innerHTML=l;
+  }
   // Update filtered stats
   var fPlays=filtered.length,fMin=0;
   for(var i=0;i<filtered.length;i++){fMin+=((filtered[i].track&&filtered[i].track.duration_ms)||0)}
@@ -197,8 +204,8 @@ function renderPlays(){
   document.getElementById('fStreak').textContent=(stats.streak||0)+'d';
 }
 
-function loadMore(){
-  page++;
+function goPage(n){
+  page=n;
   renderPlays();
 }
 
@@ -207,11 +214,9 @@ var curRange='';
 
 function setRange(rg){
   curRange=rg;
-  // Highlight active button
   var btns=document.querySelectorAll('#rangeBtns .btn-range');
   for(var i=0;i<btns.length;i++){btns[i].classList.remove('active')}
   for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-rg')===rg){btns[i].classList.add('active');break}}
-  // Filter
   var now=new Date(),from=null;
   if(rg==='today'){from=new Date(now.getFullYear(),now.getMonth(),now.getDate())}
   else if(rg==='week'){from=new Date(now.getTime()-7*86400000)}
@@ -226,8 +231,9 @@ function setRange(rg){
   }else{
     filtered=allPlays.slice();
   }
-  page=0;
+  page=0;calF=null;calT=null;
   renderPlays();
+  if(document.getElementById('cG'))calRender();
 }
 
 // Calendar
@@ -259,16 +265,13 @@ function calRender(){
   document.getElementById('cG').innerHTML=h;
 }
 function calPick(d){
-  if(!calF||(calF&&calT)){calF=d;calT=null;calRender();return}
-  if(d<calF){calT=calF;calF=d}else calT=d;
-  // Filter by date range
+  calF=d;calT=d;
   filtered=[];
   for(var i=0;i<allPlays.length;i++){
     var pd=allPlays[i].played_at.slice(0,10);
-    if(pd>=calF&&pd<=calT)filtered.push(allPlays[i]);
+    if(pd===d)filtered.push(allPlays[i]);
   }
-  page=0;
-  curRange='';
+  page=0;curRange='';
   var btns=document.querySelectorAll('#rangeBtns .btn-range');
   for(var i=0;i<btns.length;i++)btns[i].classList.remove('active');
   renderPlays();
