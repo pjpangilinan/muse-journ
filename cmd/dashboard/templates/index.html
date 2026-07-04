@@ -49,7 +49,7 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <div class="flex flex-1 w-full max-w-[1400px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-y-auto lg:overflow-hidden">
-<div class="flex-1 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-3 p-3 sm:p-5 pt-4 sm:pt-6 lg:overflow-hidden" style="min-height:0">
+<div class="flex-1 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-3 p-3 sm:p-5 pt-4 sm:pt-6 lg:overflow-hidden items-start" style="min-height:0">
 
 <div id="sidePanel" class="flex flex-col gap-3 lg:overflow-hidden"></div>
 
@@ -82,7 +82,7 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
-var pageSize=10,page=0,filtered=[];
+var pageSize=7,page=0,filtered=[];
 var RGS=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
 
 function fmtLocal(s){
