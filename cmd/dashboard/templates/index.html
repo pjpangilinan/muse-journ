@@ -47,21 +47,21 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 </div>
 </header>
 
-<div class="flex flex-1 overflow-hidden w-full max-w-[1400px] mx-auto">
+<div class="flex flex-1 w-full max-w-[1400px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-y-auto lg:overflow-hidden">
 <div class="flex-1 flex flex-col lg:flex-row gap-3 p-3 sm:p-5 pt-4 sm:pt-6 overflow-hidden">
 
-<div id="sidePanel" class="flex flex-col gap-3 lg:w-[360px] lg:min-w-[300px] lg:overflow-hidden"></div>
+<div id="sidePanel" class="flex flex-col gap-3 lg:w-[340px] lg:min-w-[300px]"></div>
 
-<section class="flex-1 flex flex-col gap-3 overflow-hidden min-w-0">
+<section class="flex-1 flex flex-col gap-3 min-w-0">
 <div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
-<div class="rounded-xl border glass flex flex-col flex-1" style="background-color:var(--bg-card);border-color:var(--border)">
-<div class="border-b px-3 sm:px-4 py-2 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
+<div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">
+<div class="border-b px-3 sm:px-4 py-1.5 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
 <h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
-<div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 border-b text-xs uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
+<div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-1.5 border-b text-xs uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
 <div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
-<div id="playList"></div>
-<div id="loadMoreC" class="p-2 sm:p-3 text-center flex items-center justify-center gap-2 shrink-0"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
+<div id="playList" class="flex-1 overflow-y-auto"></div>
+<div id="loadMoreC" class="p-1.5 sm:p-2 text-center flex items-center justify-center gap-2 shrink-0"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
 </div>
 </section>
 
@@ -82,7 +82,8 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
-var pageSize=8,page=0,filtered=[],rowHeight=43;
+var pageSize=8,page=0,filtered=[];
+var RGS=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
 
 function fmtLocal(s){
   if(!s)return'';
@@ -115,18 +116,11 @@ function init(){
   }
 }
 
-function calcPageSize(){
-  if(window.innerWidth<1024)return;
-  var avail=window.innerHeight-49-24-12-70-35-30-35-12;
-  var rows=Math.max(4,Math.floor(avail/rowHeight));
-  if(rows!==pageSize){pageSize=rows;page=0;renderPlays();}
-}
 function render(){
   renderSidebar();
   renderCards();
   renderPlays();
   renderHeaderStats();
-  setTimeout(calcPageSize,100);
 }
 function renderHeaderStats(){
   var d=stats.daily||{};
@@ -138,30 +132,28 @@ function renderHeaderStats(){
 
 function renderSidebar(){
   var h='';
-  h+='<div class="rounded-xl border glass flex flex-col flex-1 overflow-hidden" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<div class="p-3 overflow-y-auto flex-1">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
-  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
-  var rgs=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
-  for(var i=0;i<rgs.length;i++){
-    h+='<a href="#" onclick="setRange(\''+rgs[i].k+'\');return false" class="btn-range" data-rg="'+rgs[i].k+'">'+rgs[i].l+'</a>';
+  h+='<div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<div class="p-2.5 overflow-y-auto flex-1">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[11px] tracking-wider uppercase mb-1.5" style="color:var(--text);opacity:.8">Range</h3>';
+  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-1.5">';
+  for(var i=0;i<RGS.length;i++){
+    h+='<a href="#" onclick="setRange(\''+RGS[i].k+'\');return false" class="btn-range" data-rg="'+RGS[i].k+'">'+RGS[i].l+'</a>';
   }
   h+='</div>';
-  h+='<div id="activeRange" class="font-[\'Inter\'] text-xs mb-2" style="color:var(--text-muted)">Showing: All time</div>';
-  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:8px">';
-  h+='<div class="flex justify-between items-center mb-1">';
-  h+='<button onclick="calMonth(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">‹</button>';
-  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
-  h+='<button onclick="calMonth(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">›</button>';
+  h+='<div id="activeRange" class="font-[\'Inter\'] text-[11px] mb-1.5" style="color:var(--text-muted)">All time</div>';
+  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:6px">';
+  h+='<div class="flex justify-between items-center mb-0.5">';
+  h+='<button onclick="calMonth(-1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:12px;line-height:1">‹</button>';
+  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-[11px]" style="color:var(--text)"></span>';
+  h+='<button onclick="calMonth(1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:12px;line-height:1">›</button>';
   h+='</div>';
-  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
-  h+='<div class="grid grid-cols-7 gap-1" id="cG"></div></div></div></div>';
-  h+='<div class="rounded-xl border glass p-3" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Filtered Stats</h3>';
-  h+='<div class="space-y-1"><div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
-  h+='<div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
-  h+='<div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fStreak">0</span></div>';
-  h+='<div class="flex justify-between py-1"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Top Artist</span><span class="font-[\'Inter\'] text-sm font-medium truncate ml-2" style="color:var(--text)" id="fTopArtist">—</span></div></div></div>';
+  h+='<div class="grid grid-cols-7 gap-0.5 mb-0.5 text-center font-[\'JetBrains_Mono\'] text-[9px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
+  h+='<div class="grid grid-cols-7 gap-0.5" id="cG"></div></div></div></div>';
+  h+='<div class="rounded-xl border glass p-2.5 shrink-0" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[11px] tracking-wider uppercase mb-1.5" style="color:var(--text);opacity:.8">Filtered</h3>';
+  h+='<div class="space-y-0.5"><div class="flex justify-between py-0.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
+  h+='<div class="flex justify-between py-0.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
+  h+='<div class="flex justify-between py-0.5"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
   document.getElementById('sidePanel').innerHTML=h;
   calInit();
 }
