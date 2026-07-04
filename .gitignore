@@ -18,3 +18,4 @@ dashboard-server
 auth-server
 _site/
 .env*
+screenshot.png
