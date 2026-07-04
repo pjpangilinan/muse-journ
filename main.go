@@ -339,7 +339,7 @@ func runBuildSite(cfg *config.Config) {
 	}
 
 	data := map[string]any{
-		"StaticData":     template.JS(string(staticJSON)),
+		"StaticData":  template.JS(string(staticJSON)),
 		"Daily":       daily,
 		"TotalPlays":  totalPlays,
 		"TotalMin":    totalMinutes,
