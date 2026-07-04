@@ -133,22 +133,22 @@ function renderHeaderStats(){
 function renderSidebar(){
   var h='';
   h+='<div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<div class="p-2.5 overflow-y-auto flex-1">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[11px] tracking-wider uppercase mb-1.5" style="color:var(--text);opacity:.8">Range</h3>';
-  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-1.5">';
+  h+='<div class="p-3 overflow-y-auto flex-1">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
+  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
   for(var i=0;i<RGS.length;i++){
     h+='<a href="#" onclick="setRange(\''+RGS[i].k+'\');return false" class="btn-range" data-rg="'+RGS[i].k+'">'+RGS[i].l+'</a>';
   }
   h+='</div>';
-  h+='<div id="activeRange" class="font-[\'Inter\'] text-[11px] mb-1.5" style="color:var(--text-muted)">All time</div>';
-  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:6px">';
-  h+='<div class="flex justify-between items-center mb-0.5">';
-  h+='<button onclick="calMonth(-1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:12px;line-height:1">‹</button>';
-  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-[11px]" style="color:var(--text)"></span>';
-  h+='<button onclick="calMonth(1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:12px;line-height:1">›</button>';
+  h+='<div id="activeRange" class="font-[\'Inter\'] text-xs mb-2" style="color:var(--text-muted)">All time</div>';
+  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:8px">';
+  h+='<div class="flex justify-between items-center mb-1">';
+  h+='<button onclick="calMonth(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">‹</button>';
+  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
+  h+='<button onclick="calMonth(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">›</button>';
   h+='</div>';
-  h+='<div class="grid grid-cols-7 gap-0.5 mb-0.5 text-center font-[\'JetBrains_Mono\'] text-[9px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
-  h+='<div class="grid grid-cols-7 gap-0.5" id="cG"></div></div></div></div>';
+  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
+  h+='<div class="grid grid-cols-7 gap-1" id="cG"></div></div></div></div>';
   h+='<div class="rounded-xl border glass p-2.5 shrink-0" style="background-color:var(--bg-card);border-color:var(--border)">';
   h+='<h3 class="font-[\'JetBrains_Mono\'] text-[11px] tracking-wider uppercase mb-1.5" style="color:var(--text);opacity:.8">Filtered</h3>';
   h+='<div class="space-y-0.5"><div class="flex justify-between py-0.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
