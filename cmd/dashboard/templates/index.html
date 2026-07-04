@@ -47,14 +47,13 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 </div>
 </header>
 
-<div class="flex flex-1 overflow-hidden w-full max-w-[1280px] mx-auto">
+<div class="flex flex-1 overflow-hidden w-full max-w-[1400px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-hidden">
-<div class="flex-1 overflow-y-auto px-3 sm:px-5 pt-4 sm:pt-6 pb-3 sm:pb-4">
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-3" style="min-height:calc(100vh - 120px)">
+<div class="flex-1 flex flex-col lg:flex-row gap-3 p-3 sm:p-5 pt-4 sm:pt-6 overflow-hidden">
 
-<div id="sidePanel" class="lg:col-span-2 flex flex-col gap-3" style="min-height:0"></div>
+<div id="sidePanel" class="flex flex-col gap-3 lg:w-[380px] lg:min-w-[320px] overflow-hidden"></div>
 
-<section class="lg:col-span-3 flex flex-col gap-3" style="min-height:0">
+<section class="flex-1 flex flex-col gap-3 overflow-hidden min-w-0">
 <div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
 <div class="rounded-xl border glass flex flex-col flex-1" style="background-color:var(--bg-card);border-color:var(--border);min-height:0">
 <div class="border-b px-3 sm:px-4 py-2 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
