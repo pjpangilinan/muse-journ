@@ -34,28 +34,37 @@ body{background-color:var(--bg);color:var(--text);font-family:Inter,sans-serif;m
 function toggleTheme(){var h=document.documentElement,i=document.getElementById('themeIcon');if(h.classList.contains('dark')){h.classList.remove('dark');localStorage.setItem('theme','light');i.textContent='light_mode'}else{h.classList.add('dark');localStorage.setItem('theme','dark');i.textContent='dark_mode'}}</script>
 
 <header class="w-full top-0 sticky border-b z-50 glass" style="background-color:var(--bg-header);border-color:var(--border);-webkit-backdrop-filter:blur(12px)">
-<div class="flex justify-between items-center px-4 sm:px-8 py-3 w-full max-w-[1280px] mx-auto">
-<div class="flex items-center"><span class="material-symbols-outlined" style="color:var(--primary);font-size:1.5rem">graphic_eq</span></div>
-<button onclick="toggleTheme()" class="p-2 rounded-full" style="color:var(--text-secondary);background:var(--bg-glass);border:1px solid var(--border-light)"><span class="material-symbols-outlined text-lg" id="themeIcon">dark_mode</span></button>
+<div class="flex justify-between items-center px-4 sm:px-6 py-2 w-full max-w-[1280px] mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" style="color:var(--primary);font-size:1.4rem">graphic_eq</span>
+<div id="headerStats" class="hidden sm:flex items-center gap-4 text-xs" style="color:var(--text-muted)">
+{{if .Daily}}
+<span style="color:var(--text-secondary)">· <span id="hArtist" style="color:var(--text)">{{.Daily.TopArtist}}</span></span>
+<span style="color:var(--text-secondary)">· <span id="hTrack" style="color:var(--text)">{{.Daily.TopTrack}}</span></span>
+<span style="color:var(--text-secondary)">· <span id="hAlbum" style="color:var(--text)">{{.Daily.TopAlbum}}</span></span>
+{{end}}
+</div>
+</div>
+<button onclick="toggleTheme()" class="w-8 h-8 flex items-center justify-center rounded-full" style="color:var(--text-secondary);background:var(--bg-glass);border:1px solid var(--border-light)"><span class="material-symbols-outlined text-lg" id="themeIcon">dark_mode</span></button>
 </div>
 </header>
 
 <div class="flex flex-1 overflow-hidden w-full max-w-[1280px] mx-auto">
-<main class="flex-1 flex flex-col h-[calc(100vh-57px)] overflow-hidden">
-<div class="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 space-y-4">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+<main class="flex-1 flex flex-col h-[calc(100vh-52px)] overflow-hidden">
+<div class="flex-1 flex flex-col p-2 sm:p-4 gap-3 overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 overflow-hidden">
 
-<aside id="sidePanel" class="lg:col-span-4 space-y-4"></aside>
+<aside id="sidePanel" class="lg:col-span-4 space-y-3 overflow-y-auto"></aside>
 
-<section class="lg:col-span-8 space-y-4">
-<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
-<div class="rounded-xl border glass overflow-hidden" style="background-color:var(--bg-card);border-color:var(--border)">
-<div class="border-b p-3 sm:p-4" style="background-color:var(--bg-card-header);border-color:var(--border)">
+<section class="lg:col-span-8 flex flex-col gap-3 overflow-hidden">
+<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
+<div class="rounded-xl border glass flex flex-col flex-1 overflow-hidden" style="background-color:var(--bg-card);border-color:var(--border)">
+<div class="border-b px-3 sm:px-4 py-2 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
 <h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
-<div class="hidden sm:grid grid-cols-12 gap-3 px-5 py-2.5 border-b text-xs uppercase tracking-wider" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
+<div class="hidden lg:grid grid-cols-12 gap-2 px-4 py-2 border-b text-xs uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
 <div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
-<div id="playList"></div>
-<div id="loadMoreC" class="p-3 sm:p-4 text-center flex items-center justify-center gap-2"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
+<div id="playList" class="flex-1 overflow-y-auto"></div>
+<div id="loadMoreC" class="p-2 sm:p-3 text-center flex items-center justify-center gap-2 shrink-0"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
 </div>
 </section>
 
@@ -103,39 +112,40 @@ function render(){
   renderSidebar();
   renderCards();
   renderPlays();
+  renderHeaderStats();
+}
+function renderHeaderStats(){
+  var d=stats.daily||{};
+  var hArtist=document.getElementById('hArtist'),hTrack=document.getElementById('hTrack'),hAlbum=document.getElementById('hAlbum');
+  if(hArtist)hArtist.textContent=d.top_artist||'—';
+  if(hTrack)hTrack.textContent=d.top_track||'—';
+  if(hAlbum)hAlbum.textContent=d.top_album||'—';
 }
 
 function renderSidebar(){
   var h='';
-  // Range buttons
-  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Time Range</h3>';
-  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1.5 mb-3">';
+  h+='<div class="rounded-xl p-3 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
+  h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
   var rgs=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
   for(var i=0;i<rgs.length;i++){
     h+='<a href="#" onclick="setRange(\''+rgs[i].k+'\');return false" class="btn-range" data-rg="'+rgs[i].k+'">'+rgs[i].l+'</a>';
   }
   h+='</div>';
-  // Calendar
-  h+='<div style="background:var(--bg-glass);border-radius:10px;padding:10px">';
-  h+='<div class="flex justify-between items-center mb-2">';
-  h+='<button onclick="calMonth(-1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">‹</button>';
-  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
-  h+='<button onclick="calMonth(1)" class="px-2 py-1 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:14px">›</button>';
+  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:8px">';
+  h+='<div class="flex justify-between items-center mb-1">';
+  h+='<button onclick="calMonth(-1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px;line-height:1">‹</button>';
+  h+='<span id="cL" class="font-[\'JetBrains_Mono\'] text-[11px]" style="color:var(--text)"></span>';
+  h+='<button onclick="calMonth(1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px;line-height:1">›</button>';
   h+='</div>';
-  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
-  h+='<div class="grid grid-cols-7 gap-1" id="cG"></div></div></div>';
-  // Filtered stats
-  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Filtered</h3>';
-  h+='<div class="space-y-2"><div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
-  h+='<div class="flex justify-between py-1.5" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
-  h+='<div class="flex justify-between py-1.5"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-lg font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
-  // Top Artists
-  h+='<div class="rounded-xl p-4 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-3" style="color:var(--text);opacity:.8">Top Artists</h3><div id="artistList" class="space-y-1"></div></div>';
+  h+='<div class="grid grid-cols-7 gap-0.5 mb-0.5 text-center font-[\'JetBrains_Mono\'] text-[9px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
+  h+='<div class="grid grid-cols-7 gap-0.5" id="cG"></div></div></div>';
+  h+='<div class="rounded-xl p-3 border glass" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<h3 class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Filtered</h3>';
+  h+='<div class="space-y-1"><div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
+  h+='<div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
+  h+='<div class="flex justify-between py-1"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
   document.getElementById('sidePanel').innerHTML=h;
-  renderArtists();
   calInit();
 }
 
@@ -157,10 +167,10 @@ function renderArtists(){
 function renderCards(){
   var d=stats.daily||{};
   document.getElementById('statCards').innerHTML=
-    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Plays</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.totalPlays||0)+'</p></div>'+
-    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Minutes</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.totalMin||0)+'</p></div>'+
-    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Streak</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(stats.streak||0)+'d</p></div>'+
-    '<div class="rounded-xl p-3 border card-hover" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[10px] tracking-wider uppercase" style="color:var(--text-muted)">Today</span><p class="font-[\'Geist\'] text-2xl font-semibold mt-0.5" style="color:var(--text)">'+(d.total_plays||0)+'</p></div>';
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Plays</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.totalPlays||0)+'</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Minutes</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.totalMin||0)+'</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Streak</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(stats.streak||0)+'d</p></div>'+
+    '<div class="rounded-lg p-2 border" style="background-color:var(--bg-card);border-color:var(--border)"><span class="font-[\'JetBrains_Mono\'] text-[9px] tracking-wider uppercase" style="color:var(--text-muted)">Today</span><p class="font-[\'Geist\'] text-xl font-semibold" style="color:var(--text)">'+(d.total_plays||0)+'</p></div>';
 }
 
 function renderPlays(){
@@ -232,7 +242,7 @@ function setRange(rg){
     filtered=allPlays.slice();
   }
   page=0;calF=null;calT=null;
-  renderPlays();
+  renderPlays();renderHeaderStats();
   if(document.getElementById('cG'))calRender();
 }
 
