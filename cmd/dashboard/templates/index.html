@@ -49,66 +49,27 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 
 <div class="flex flex-1 overflow-hidden w-full max-w-[1280px] mx-auto">
 <main class="flex-1 flex flex-col h-[calc(100vh-49px)] overflow-hidden">
-<div class="flex-1 flex flex-col lg:flex-row p-2 sm:p-3 gap-3 overflow-hidden">
+<div class="flex-1 overflow-y-auto p-2 sm:p-4">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-3 h-full">
 
-<div id="sidePanel" class="hidden lg:flex w-[340px] min-w-[280px] flex-col gap-3 overflow-hidden"></div>
+<div id="sidePanel" class="lg:col-span-4 space-y-3"></div>
 
-<section class="flex-1 flex flex-col gap-3 overflow-hidden min-w-0">
-<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0"></div>
-<div class="rounded-xl border glass flex flex-col flex-1 overflow-hidden min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">
-<div class="border-b px-3 sm:px-4 py-1.5 shrink-0" style="background-color:var(--bg-card-header);border-color:var(--border)">
-<h3 class="font-['JetBrains_Mono'] text-[11px] tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
-<div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-1.5 border-b text-[11px] uppercase tracking-wider shrink-0" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
+<section class="lg:col-span-8 space-y-3">
+<div id="statCards" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+<div class="rounded-xl border glass" style="background-color:var(--bg-card);border-color:var(--border)">
+<div class="border-b px-3 sm:px-4 py-2" style="background-color:var(--bg-card-header);border-color:var(--border)">
+<h3 class="font-['JetBrains_Mono'] text-xs tracking-wider uppercase" style="color:var(--text);opacity:.8">Recent Plays</h3></div>
+<div class="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 border-b text-xs uppercase tracking-wider" style="border-color:var(--border);background-color:var(--bg-striped);color:var(--text-muted);font-family:'JetBrains Mono',monospace">
 <div class="col-span-2">Time</div><div class="col-span-4">Track</div><div class="col-span-3">Artist</div><div class="col-span-3">Album</div></div>
-<div id="playList" class="flex-1 overflow-y-auto"></div>
-<div id="loadMoreC" class="p-1.5 sm:p-2 text-center flex items-center justify-center gap-2 shrink-0"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
+<div id="playList"></div>
+<div id="loadMoreC" class="p-2 sm:p-3 text-center flex items-center justify-center gap-2"><div id="loadBtn" class="font-['Inter'] text-xs" style="color:var(--text-muted)">Loading...</div></div>
 </div>
 </section>
 
 </div>
+</div>
 </main>
 </div>
-
-<!-- Mobile sidebar toggle -->
-<button id="mobileSidebarBtn" onclick="toggleMobileSidebar()" class="fixed bottom-4 right-4 lg:hidden w-12 h-12 rounded-full shadow-lg z-50 flex items-center justify-center" style="background-color:var(--primary);color:#002e6a;border:none;cursor:pointer">
-<span class="material-symbols-outlined">calendar_month</span>
-</button>
-<div id="mobileSidebar" class="fixed inset-0 z-40 hidden lg:hidden" style="background-color:rgba(0,0,0,0.5)">
-<div class="absolute right-0 top-0 bottom-0 w-[320px] max-w-[85vw] overflow-y-auto p-3" style="background-color:var(--bg);border-left:1px solid var(--border)">
-<div class="flex justify-end mb-2"><button onclick="toggleMobileSidebar()" class="p-2 rounded-full" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer"><span class="material-symbols-outlined">close</span></button></div>
-<div id="mobileSidebarContent"></div>
-</div>
-</div>
-<script>
-function toggleMobileSidebar(){
-  var el=document.getElementById('mobileSidebar');
-  el.classList.toggle('hidden');
-}
-function renderMobileSidebar(){
-  var h='';
-  h+='<div class="rounded-xl border glass p-3" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
-  h+='<div id="mobileRangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
-  var rgs=[{k:'',l:'All'},{k:'today',l:'Day'},{k:'week',l:'Week'},{k:'month',l:'Month'},{k:'year',l:'Year'}];
-  for(var i=0;i<rgs.length;i++){
-    h+='<a href="#" onclick="setRange(\''+rgs[i].k+'\');return false" class="btn-range" data-rg="'+rgs[i].k+'">'+rgs[i].l+'</a>';
-  }
-  h+='</div>';
-  h+='<div style="background:var(--bg-glass);border-radius:8px;padding:8px">';
-  h+='<div class="flex justify-between items-center mb-1">';
-  h+='<button onclick="calMonth(-1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">‹</button>';
-  h+='<span id="mobCL" class="font-[\'JetBrains_Mono\'] text-xs" style="color:var(--text)"></span>';
-  h+='<button onclick="calMonth(1)" class="px-1.5 py-0.5 rounded" style="color:var(--text-secondary);background:var(--btn-bg);border:none;cursor:pointer;font-size:13px">›</button>';
-  h+='</div>';
-  h+='<div class="grid grid-cols-7 gap-1 mb-1 text-center font-[\'JetBrains_Mono\'] text-[10px]" style="color:var(--text-muted)"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>';
-  h+='<div class="grid grid-cols-7 gap-1" id="mobCalGrid"></div></div></div>';
-  h+='<div class="rounded-xl border glass p-3 mt-3" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Filtered</h3>';
-  h+='<div class="space-y-1"><div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Plays</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fPlays">0</span></div>';
-  h+='<div class="flex justify-between py-1" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Minutes</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fMin">0</span></div>';
-  h+='<div class="flex justify-between py-1"><span class="font-[\'Inter\'] text-sm" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-base font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
-  document.getElementById('mobileSidebarContent').innerHTML=h;
-}
 
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
@@ -147,7 +108,6 @@ function init(){
 
 function render(){
   renderSidebar();
-  renderMobileSidebar();
   renderCards();
   renderPlays();
   renderHeaderStats();
@@ -281,8 +241,7 @@ function setRange(rg){
     filtered=allPlays.slice();
   }
   page=0;calF=null;calT=null;
-  renderPlays();renderHeaderStats();
-  if(document.getElementById('cG'))calRender();
+  renderPlays();renderHeaderStats();calRender();
 }
 
 // Calendar
@@ -299,7 +258,6 @@ function calRender(){
   var tds=td.getFullYear()+'-'+pad2(td.getMonth()+1)+'-'+pad2(td.getDate());
   var label=new Date(y,m).toLocaleDateString('en',{month:'long',year:'numeric'});
   var cl=document.getElementById('cL');if(cl)cl.textContent=label;
-  var mcl=document.getElementById('mobCL');if(mcl)mcl.textContent=label;
   var h='',i,d,ds,cls;
   for(i=0;i<wd;i++){d=dp-wd+1+i;h+='<div class="cal-btn oth">'+d+'</div>'}
   for(d=1;d<=dm;d++){
@@ -313,7 +271,6 @@ function calRender(){
   var rem=(7-(wd+dm)%7)%7;
   for(i=1;i<=rem;i++)h+='<div class="cal-btn oth">'+i+'</div>';
   var cg=document.getElementById('cG');if(cg)cg.innerHTML=h;
-  var mcg=document.getElementById('mobCalGrid');if(mcg)mcg.innerHTML=h;
 }
 function calPick(d){
   calF=d;calT=d;
