@@ -19,7 +19,7 @@ body{background-color:var(--bg);color:var(--text);font-family:Inter,sans-serif;m
 .btn-range{transition:all .15s;cursor:pointer;padding:6px 10px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:none;text-align:center;text-decoration:none;display:block}
 .btn-range:hover{background:var(--btn-hover)}.btn-range.active{background:var(--primary);color:#002e6a;font-weight:600}
 .track-link{transition:color .15s;cursor:pointer;text-decoration:none}.track-link:hover{color:var(--primary)}
-.cal-btn{display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;cursor:pointer;background:var(--cal-bg);color:var(--text);transition:all .15s;border:none;padding:4px 0;font-family:'Inter',sans-serif;height:32px}
+.cal-btn{display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:13px;cursor:pointer;background:var(--cal-bg);color:var(--text);transition:all .15s;border:none;padding:4px 0;font-family:'Inter',sans-serif;height:44px}
 .cal-btn:hover{background:var(--cal-hover)}.cal-btn.sel{background:var(--primary);color:#fff;font-weight:600}
 .cal-btn.inr{background:var(--primary-glow)}.cal-btn.oth{opacity:.2;pointer-events:none}.cal-btn.tdy{font-weight:600}
 .load-btn{transition:all .15s;cursor:pointer;padding:8px 20px;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--btn-bg);color:var(--text-secondary);border:1px solid var(--border);text-align:center;width:100%}
@@ -132,8 +132,8 @@ function renderHeaderStats(){
 
 function renderSidebar(){
   var h='';
-  h+='<div class="rounded-xl border glass flex flex-col flex-1 min-h-0" style="background-color:var(--bg-card);border-color:var(--border)">';
-  h+='<div class="p-3 overflow-y-auto flex-1">';
+  h+='<div class="rounded-xl border glass flex flex-col" style="background-color:var(--bg-card);border-color:var(--border)">';
+  h+='<div class="p-3">';
   h+='<h3 class="font-[\'JetBrains_Mono\'] text-xs tracking-wider uppercase mb-2" style="color:var(--text);opacity:.8">Range</h3>';
   h+='<div id="rangeBtns" class="grid grid-cols-5 gap-1 mb-2">';
   for(var i=0;i<RGS.length;i++){
