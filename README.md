@@ -8,7 +8,7 @@
 
 Automated personal Spotify listening history archive. Self-hosted, permanent, searchable.
 
-Every 16 hours, fetches recently played tracks from Spotify, stores them in SQLite, and publishes a static dashboard to GitHub Pages.
+Every 12 and 8 PM, fetches recently played tracks from Spotify, stores them in SQLite, and publishes a static dashboard to GitHub Pages.
 
 ## Architecture
 
