@@ -43,7 +43,10 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 <span style="color:var(--text-secondary)">| Today's Album: <b id="hAlbum" style="color:var(--text);font-weight:500">{{.Daily.TopAlbum}}</b></span>
 {{end}}
 </div>
+<div class="flex items-center gap-3">
+{{if .LastCollected}}<span class="font-['JetBrains_Mono'] text-[10px]" style="color:var(--text-muted)">Last: {{.LastCollected | formatTime}}</span>{{end}}
 <button onclick="toggleTheme()" class="w-7 h-7 flex items-center justify-center rounded-full" style="color:var(--text-secondary);background:var(--bg-glass);border:1px solid var(--border-light)"><span class="material-symbols-outlined" style="font-size:1.1rem" id="themeIcon">dark_mode</span></button>
+</div>
 </div>
 </header>
 

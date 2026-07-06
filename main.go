@@ -221,19 +221,22 @@ func runDashboard(cfg *config.Config) {
 		today := time.Now().UTC().Format("2006-01-02")
 		daily, _ := analyticsDB.DailySummary(today)
 		topArtists, _ := analyticsDB.TopArtists(5)
+		var lastCollected string
+		db.QueryRow("SELECT played_at FROM play_events ORDER BY played_at DESC LIMIT 1").Scan(&lastCollected)
 
 		data := map[string]any{
-			"Plays":        plays,
-			"TotalPlays":   totalPlays,
-			"TotalMin":     totalMinutes,
-			"Streak":       streak,
-			"Daily":        daily,
-			"FilterPlays":  totalPlaysFiltered,
-			"FilterMin":    totalMinFiltered,
-			"TopArtists":   topArtists,
-			"CurrentRange": rangeVal,
-			"From":         from,
-			"To":           to,
+			"Plays":         plays,
+			"TotalPlays":    totalPlays,
+			"TotalMin":      totalMinutes,
+			"Streak":        streak,
+			"Daily":         daily,
+			"FilterPlays":   totalPlaysFiltered,
+			"FilterMin":     totalMinFiltered,
+			"TopArtists":    topArtists,
+			"CurrentRange":  rangeVal,
+			"LastCollected": lastCollected,
+			"From":          from,
+			"To":            to,
 		}
 
 		if err := tmpl.ExecuteTemplate(w, "index.html", data); err != nil {
@@ -324,6 +327,9 @@ func runBuildSite(cfg *config.Config) {
 	}
 	totalMinFiltered /= 60000
 
+	var lastCollected string
+	db.QueryRow("SELECT played_at FROM play_events ORDER BY played_at DESC LIMIT 1").Scan(&lastCollected)
+
 	staticJSON, err := json.Marshal(map[string]any{
 		"plays":       plays,
 		"totalPlays":  totalPlays,
@@ -339,14 +345,15 @@ func runBuildSite(cfg *config.Config) {
 	}
 
 	data := map[string]any{
-		"StaticData":  template.JS(string(staticJSON)),
-		"Daily":       daily,
-		"TotalPlays":  totalPlays,
-		"TotalMin":    totalMinutes,
-		"Streak":      streak,
-		"FilterPlays": len(plays),
-		"FilterMin":   totalMinFiltered,
-		"TopArtists":  topArtists,
+		"StaticData":    template.JS(string(staticJSON)),
+		"Daily":         daily,
+		"TotalPlays":    totalPlays,
+		"TotalMin":      totalMinutes,
+		"Streak":        streak,
+		"FilterPlays":   len(plays),
+		"FilterMin":     totalMinFiltered,
+		"TopArtists":    topArtists,
+		"LastCollected": lastCollected,
 	}
 
 	if err := os.MkdirAll("_site", 0755); err != nil {
