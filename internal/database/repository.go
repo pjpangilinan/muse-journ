@@ -2,9 +2,8 @@ package database
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 func (db *DB) UpsertArtist(a *Artist) (int64, error) {
@@ -69,34 +68,6 @@ func (db *DB) InsertAlbumArtist(albumID, artistID int64) error {
 	return err
 }
 
-func (db *DB) GetArtistBySpotifyID(spotifyID string) (*Artist, error) {
-	if strings.TrimSpace(spotifyID) == "" {
-		return nil, errors.New("empty spotify_id")
-	}
-	row := db.QueryRow("SELECT id, spotify_id, name, genres, followers, popularity, created_at, updated_at FROM artists WHERE spotify_id = ?", spotifyID)
-	return scanArtist(row)
-}
-
-func (db *DB) GetAlbumBySpotifyID(spotifyID string) (*Album, error) {
-	if strings.TrimSpace(spotifyID) == "" {
-		return nil, errors.New("empty spotify_id")
-	}
-	row := db.QueryRow("SELECT id, spotify_id, name, release_date, total_tracks, cover_url, created_at FROM albums WHERE spotify_id = ?", spotifyID)
-	return scanAlbum(row)
-}
-
-func (db *DB) GetTrackBySpotifyID(spotifyID string) (*Track, error) {
-	if strings.TrimSpace(spotifyID) == "" {
-		return nil, errors.New("empty spotify_id")
-	}
-	row := db.QueryRow("SELECT id, spotify_id, name, duration_ms, explicit, disc_number, track_number, popularity, preview_url, album_id, created_at FROM tracks WHERE spotify_id = ?", spotifyID)
-	return scanTrack(row)
-}
-
-func (db *DB) GetRecentPlays(limit int) ([]PlayEventWithDetails, error) {
-	return db.GetRecentPlaysRange(limit, 0, "", "")
-}
-
 func (db *DB) GetRecentPlaysRange(limit, offset int, from, to string) ([]PlayEventWithDetails, error) {
 	query := `
 		SELECT pe.id, pe.played_at, pe.device, pe.context,
@@ -138,18 +109,20 @@ func (db *DB) GetRecentPlaysRange(limit, offset int, from, to string) ([]PlayEve
 	for rows.Next() {
 		var p PlayEventWithDetails
 		var albumID, albumSpotifyID, albumName, albumCover sql.NullString
+		var previewURL sql.NullString
 		err := rows.Scan(
 			&p.ID, &p.PlayedAt, &p.Device, &p.Context,
 			&p.Track.ID, &p.Track.SpotifyID, &p.Track.Name,
-			&p.Track.DurationMS, &p.Track.Explicit, &p.Track.PreviewURL,
+			&p.Track.DurationMS, &p.Track.Explicit, &previewURL,
 			&albumID, &albumSpotifyID, &albumName, &albumCover,
 			&p.Artists)
 		if err != nil {
 			return nil, fmt.Errorf("scan play event: %w", err)
 		}
+		p.Track.PreviewURL = previewURL.String
 		if albumID.Valid {
 			p.Album = &Album{
-				ID:        mustParseInt64(albumID.String),
+				ID:        parseID(albumID.String),
 				SpotifyID: albumSpotifyID.String,
 				Name:      albumName.String,
 				CoverURL:  albumCover.String,
@@ -158,12 +131,6 @@ func (db *DB) GetRecentPlaysRange(limit, offset int, from, to string) ([]PlayEve
 		results = append(results, p)
 	}
 	return results, rows.Err()
-}
-
-func (db *DB) GetPlayCount(trackID int64) (int, error) {
-	var count int
-	err := db.QueryRow("SELECT COUNT(*) FROM play_events WHERE track_id = ?", trackID).Scan(&count)
-	return count, err
 }
 
 type PlayEventWithDetails struct {
@@ -176,47 +143,6 @@ type PlayEventWithDetails struct {
 	Artists  string `json:"artists"`
 }
 
-func scanArtist(row *sql.Row) (*Artist, error) {
-	a := &Artist{}
-	err := row.Scan(&a.ID, &a.SpotifyID, &a.Name, &a.Genres, &a.Followers, &a.Popularity, &a.CreatedAt, &a.UpdatedAt)
-	if errors.Is(err, sql.ErrNoRows) {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("scan artist: %w", err)
-	}
-	return a, nil
-}
-
-func scanAlbum(row *sql.Row) (*Album, error) {
-	a := &Album{}
-	err := row.Scan(&a.ID, &a.SpotifyID, &a.Name, &a.ReleaseDate, &a.TotalTracks, &a.CoverURL, &a.CreatedAt)
-	if errors.Is(err, sql.ErrNoRows) {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("scan album: %w", err)
-	}
-	return a, nil
-}
-
-func scanTrack(row *sql.Row) (*Track, error) {
-	t := &Track{}
-	var albumID sql.NullInt64
-	err := row.Scan(&t.ID, &t.SpotifyID, &t.Name, &t.DurationMS, &t.Explicit,
-		&t.DiscNumber, &t.TrackNumber, &t.Popularity, &t.PreviewURL, &albumID, &t.CreatedAt)
-	if errors.Is(err, sql.ErrNoRows) {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("scan track: %w", err)
-	}
-	if albumID.Valid {
-		t.AlbumID = albumID.Int64
-	}
-	return t, nil
-}
-
 func upsert(db *sql.DB, query string, args ...any) (int64, error) {
 	var id int64
 	err := db.QueryRow(query, args...).Scan(&id)
@@ -226,8 +152,10 @@ func upsert(db *sql.DB, query string, args ...any) (int64, error) {
 	return id, nil
 }
 
-func mustParseInt64(s string) int64 {
-	var n int64
-	fmt.Sscanf(s, "%d", &n)
+func parseID(s string) int64 {
+	n, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return 0
+	}
 	return n
 }

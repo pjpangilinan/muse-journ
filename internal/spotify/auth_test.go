@@ -15,7 +15,7 @@ func TestNewOAuthConfig(t *testing.T) {
 }
 
 func TestCoverURL(t *testing.T) {
-	track := &Track{
+	withImg := &Track{
 		ID:   "test",
 		Name: "Test",
 		Album: Album{
@@ -24,13 +24,13 @@ func TestCoverURL(t *testing.T) {
 			},
 		},
 	}
-	if url := track.CoverURL(); url != "https://example.com/cover.jpg" {
-		t.Fatalf("expected cover url, got %s", url)
+	if len(withImg.Album.Images) == 0 || withImg.Album.Images[0].URL != "https://example.com/cover.jpg" {
+		t.Fatalf("expected cover url, got empty")
 	}
 
 	noImg := &Track{Name: "No image"}
-	if url := noImg.CoverURL(); url != "" {
-		t.Fatalf("expected empty url, got %s", url)
+	if len(noImg.Album.Images) != 0 {
+		t.Fatalf("expected no images, got %d", len(noImg.Album.Images))
 	}
 }
 

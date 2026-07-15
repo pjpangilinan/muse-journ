@@ -45,13 +45,3 @@ type PlayEvent struct {
 	Context  string `json:"context"`
 	Source   string `json:"source"`
 }
-
-type TrackArtist struct {
-	TrackID  int64 `json:"track_id"`
-	ArtistID int64 `json:"artist_id"`
-}
-
-type AlbumArtist struct {
-	AlbumID  int64 `json:"album_id"`
-	ArtistID int64 `json:"artist_id"`
-}

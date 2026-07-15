@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"os"
 	"testing"
 )
@@ -55,8 +56,8 @@ func TestOpenAndMigrate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("get version: %v", err)
 	}
-	if version != 3 {
-		t.Fatalf("expected version 3, got %d", version)
+	if version != 2 {
+		t.Fatalf("expected version 2, got %d", version)
 	}
 
 	// Second migrate should be idempotent
@@ -80,12 +81,13 @@ func TestUpsertArtist(t *testing.T) {
 		t.Fatal("expected non-zero id")
 	}
 
-	artist, err := db.GetArtistBySpotifyID("spotify:artist:test123")
+	var name string
+	err = db.QueryRow("SELECT name FROM artists WHERE spotify_id = ?", "spotify:artist:test123").Scan(&name)
 	if err != nil {
-		t.Fatalf("get artist: %v", err)
+		t.Fatalf("query artist: %v", err)
 	}
-	if artist.Name != "Test Artist" {
-		t.Fatalf("expected Test Artist, got %s", artist.Name)
+	if name != "Test Artist" {
+		t.Fatalf("expected Test Artist, got %s", name)
 	}
 
 	// Upsert same spotify_id should update
@@ -99,18 +101,22 @@ func TestUpsertArtist(t *testing.T) {
 	if id2 != id {
 		t.Fatalf("expected same id %d, got %d", id, id2)
 	}
-	artist, _ = db.GetArtistBySpotifyID("spotify:artist:test123")
-	if artist.Name != "Updated Artist" {
-		t.Fatalf("expected Updated Artist, got %s", artist.Name)
+	err = db.QueryRow("SELECT name FROM artists WHERE spotify_id = ?", "spotify:artist:test123").Scan(&name)
+	if err != nil {
+		t.Fatalf("query updated artist: %v", err)
+	}
+	if name != "Updated Artist" {
+		t.Fatalf("expected Updated Artist, got %s", name)
 	}
 
 	// Get nonexistent
-	artist, err = db.GetArtistBySpotifyID("nope")
+	var count int
+	err = db.QueryRow("SELECT COUNT(*) FROM artists WHERE spotify_id = ?", "nope").Scan(&count)
 	if err != nil {
-		t.Fatalf("get nonexistent: %v", err)
+		t.Fatalf("query nonexistent: %v", err)
 	}
-	if artist != nil {
-		t.Fatal("expected nil for nonexistent")
+	if count != 0 {
+		t.Fatal("expected 0 for nonexistent")
 	}
 }
 
@@ -130,12 +136,13 @@ func TestUpsertAlbum(t *testing.T) {
 		t.Fatal("expected non-zero id")
 	}
 
-	album, err := db.GetAlbumBySpotifyID("spotify:album:test456")
+	var albumName string
+	err = db.QueryRow("SELECT name FROM albums WHERE spotify_id = ?", "spotify:album:test456").Scan(&albumName)
 	if err != nil {
 		t.Fatalf("get album: %v", err)
 	}
-	if album.Name != "Test Album" {
-		t.Fatalf("expected Test Album, got %s", album.Name)
+	if albumName != "Test Album" {
+		t.Fatalf("expected Test Album, got %s", albumName)
 	}
 }
 
@@ -159,15 +166,17 @@ func TestUpsertTrack(t *testing.T) {
 		t.Fatal("expected non-zero id")
 	}
 
-	track, err := db.GetTrackBySpotifyID("spotify:track:trk1")
+	var trackName string
+	var gotAlbumID int64
+	err = db.QueryRow("SELECT name, album_id FROM tracks WHERE spotify_id = ?", "spotify:track:trk1").Scan(&trackName, &gotAlbumID)
 	if err != nil {
 		t.Fatalf("get track: %v", err)
 	}
-	if track.Name != "Test Track" {
-		t.Fatalf("expected Test Track, got %s", track.Name)
+	if trackName != "Test Track" {
+		t.Fatalf("expected Test Track, got %s", trackName)
 	}
-	if track.AlbumID != albumID {
-		t.Fatalf("expected album_id %d, got %d", albumID, track.AlbumID)
+	if gotAlbumID != albumID {
+		t.Fatalf("expected album_id %d, got %d", albumID, gotAlbumID)
 	}
 }
 
@@ -201,7 +210,7 @@ func TestPlayEventLifecycle(t *testing.T) {
 	}
 
 	// Get recent plays
-	plays, err := db.GetRecentPlays(10)
+	plays, err := db.GetRecentPlaysRange(10, 0, "", "")
 	if err != nil {
 		t.Fatalf("get recent plays: %v", err)
 	}
@@ -246,7 +255,8 @@ func TestPlayEventLifecycle(t *testing.T) {
 	}
 
 	// Play count
-	count, err := db.GetPlayCount(trackID)
+	var count int
+	err = db.QueryRow("SELECT COUNT(*) FROM play_events WHERE track_id = ?", trackID).Scan(&count)
 	if err != nil {
 		t.Fatalf("play count: %v", err)
 	}
@@ -289,7 +299,7 @@ func TestMultiplePlaysAndPagination(t *testing.T) {
 	}
 
 	// Get all plays (should be 15)
-	plays, err := db.GetRecentPlays(100)
+	plays, err := db.GetRecentPlaysRange(100, 0, "", "")
 	if err != nil {
 		t.Fatalf("get all: %v", err)
 	}
@@ -302,7 +312,7 @@ func TestEmptyDB(t *testing.T) {
 	db := setupTestDB(t)
 	defer db.Close()
 
-	plays, err := db.GetRecentPlays(10)
+	plays, err := db.GetRecentPlaysRange(10, 0, "", "")
 	if err != nil {
 		t.Fatalf("get plays empty: %v", err)
 	}
@@ -310,7 +320,8 @@ func TestEmptyDB(t *testing.T) {
 		t.Fatalf("expected 0 plays, got %d", len(plays))
 	}
 
-	count, err := db.GetPlayCount(999)
+	var count int
+	err = db.QueryRow("SELECT COUNT(*) FROM play_events WHERE track_id = ?", 999).Scan(&count)
 	if err != nil {
 		t.Fatalf("play count empty: %v", err)
 	}
@@ -318,12 +329,10 @@ func TestEmptyDB(t *testing.T) {
 		t.Fatalf("expected 0 count, got %d", count)
 	}
 
-	artist, err := db.GetArtistBySpotifyID("nonexistent")
-	if err != nil {
-		t.Fatalf("get artist nonexistent: %v", err)
-	}
-	if artist != nil {
-		t.Fatal("expected nil artist")
+	var artistName string
+	err = db.QueryRow("SELECT name FROM artists WHERE spotify_id = ?", "nonexistent").Scan(&artistName)
+	if err != sql.ErrNoRows {
+		t.Fatal("expected no rows for nonexistent artist")
 	}
 }
 

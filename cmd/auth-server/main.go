@@ -53,15 +53,7 @@ func main() {
 			"refresh_token": token.RefreshToken,
 		})
 
-		log.Println("OAuth complete. Refresh token returned in JSON response.")
-		log.Println("Save it as SPOTIFY_REFRESH_TOKEN in GitHub Secrets.")
-
-		go func() {
-			sig := make(chan os.Signal, 1)
-			signal.Notify(sig, os.Interrupt)
-			<-sig
-			os.Exit(0)
-		}()
+		log.Println("OAuth complete. Use the refresh token as SPOTIFY_REFRESH_TOKEN.")
 	})
 
 	server := &http.Server{Addr: ":9090", Handler: mux}
@@ -82,6 +74,8 @@ func main() {
 
 func randomState() string {
 	b := make([]byte, 16)
-	rand.Read(b)
+	if _, err := rand.Read(b); err != nil {
+		log.Fatalf("generate random state: %v", err)
+	}
 	return hex.EncodeToString(b)
 }

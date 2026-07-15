@@ -86,6 +86,9 @@ func (g *Generator) MonthlyReport(yearMonth string) (string, error) {
 	if summary.TopTrack != "" {
 		b.WriteString(fmt.Sprintf("- **Top track:** %s\n", summary.TopTrack))
 	}
+	if summary.TopAlbum != "" {
+		b.WriteString(fmt.Sprintf("- **Top album:** %s\n", summary.TopAlbum))
+	}
 
 	topArtists, err := g.analytics.TopArtists(10)
 	if err == nil && len(topArtists) > 0 {

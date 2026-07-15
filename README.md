@@ -6,128 +6,159 @@
 [![Go Version](https://img.shields.io/badge/Go-1.26-00ADD8?logo=go)](https://go.dev)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Automated personal Spotify listening history archive. Self-hosted, permanent, searchable.
+A personal Spotify listening history archive that runs itself. Twice a day (12:00 and 20:00 UTC) it grabs your recently played tracks from Spotify, saves them to a local SQLite database, and publishes a dashboard to GitHub Pages — completely automated, no server needed.
 
-Every 12 and 8 PM, fetches recently played tracks from Spotify, stores them in SQLite, and publishes a static dashboard to GitHub Pages.
+You can browse your listening history by day, week, month, or year. Filter by calendar date. See stats like total plays, listening time, streaks, and top artists. All of it lives in a static HTML page that doesn't cost anything to host.
 
-## Architecture
+## How it works
 
-```mermaid
-flowchart TD
-    S[Spotify API] -->|OAuth2 refresh token| C[Collector<br/>Go binary]
-    C -->|Recently Played<br/>endpoint| S
-    C -->|Upsert plays| DB[(SQLite<br/>music.db)]
-    DB -->|Read| D[Dashboard<br/>static site builder]
-    D -->|go run . build-site| HTML[Static HTML<br/>_site/]
-    HTML -->|actions/upload-pages-artifact| P[GitHub Pages]
+On a schedule (or whenever you push to main), three GitHub Actions workflows take care of everything:
 
-    GH[GitHub Actions<br/>every 16h] -->|schedules| C
-    GH -->|on push| D
+1. **Collector** runs twice a day, calls the Spotify API, saves any new plays into `music.db`, and commits the database back to the repo.
+2. **CI** runs on every push — checks formatting, runs vet, builds, and runs tests.
+3. **Deploy** triggers after the Collector finishes (or after any push to main). It builds the static site from the database and publishes it to GitHub Pages.
+
+The dashboard is a single HTML file with vanilla JavaScript. It works both as a static site (hosted on Pages) and as a local web server you can run from your machine. No build step, no bundler, no backend API needed at runtime — the static site embeds all your play data directly into the page.
+
+## What you'll need
+
+- A **Spotify account** (free or premium — both work for recently played)
+- **Go 1.26** (to run locally and for GitHub Actions)
+- A **GitHub account** (for hosting the dashboard on Pages)
+
+## Setting it up
+
+### 1. Create a Spotify app
+
+Head over to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) and create a new app. Any name works — call it whatever you want.
+
+Once it's created, click "Edit Settings" and add this as a redirect URI:
+
+```
+http://127.0.0.1:9090/callback
 ```
 
-## Quick Start
+Save it. You'll see a **Client ID** and **Client Secret** — keep those handy.
 
-### 1. Set up Spotify
+### 2. Get a refresh token
 
-Create an app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard).
+The refresh token is what lets the collector authenticate with Spotify automatically, without you having to log in every time. You only need to do this once.
 
-Add redirect URI: `http://127.0.0.1:9090/callback`
-
-### 2. Get refresh token
+Run this in your terminal:
 
 ```bash
-SPOTIFY_CLIENT_ID=xxx SPOTIFY_CLIENT_SECRET=yyy go run ./cmd/auth-server/
+SPOTIFY_CLIENT_ID=your_client_id SPOTIFY_CLIENT_SECRET=your_client_secret go run ./cmd/auth-server/
 ```
 
-Open the URL, authorize, save the `refresh_token` from the JSON response.
+It'll print a URL. Open it in your browser, log in to Spotify, and authorize the app. A JSON response with your `refresh_token` will show up — save it. That's the key to the whole thing.
 
-### 3. Test locally
+### 3. Try it locally
+
+Before deploying, run the collector once to make sure everything works:
 
 ```bash
-# Collect your recent plays
 SPOTIFY_CLIENT_ID=xxx SPOTIFY_CLIENT_SECRET=yyy SPOTIFY_REFRESH_TOKEN=zzz go run . collector
-
-# View dashboard
-go run . dashboard
-# Open http://127.0.0.1:9090
 ```
 
-### 4. Deploy to GitHub Pages
+You should see some output about how many plays were collected. If it worked, start the dashboard:
 
 ```bash
-# Push to GitHub (private repo)
-git remote add origin git@github.com:you/muse-journ.git
+go run . dashboard
+```
+
+Open `http://127.0.0.1:8080` in your browser. You should see your listening history.
+
+If you want to generate the static site locally (same thing that gets deployed to Pages):
+
+```bash
+go run . build-site
+```
+
+This creates an `_site/` folder with the dashboard as a static HTML file.
+
+### 4. Push to GitHub
+
+Create a repository on GitHub (private or public, your call), then push:
+
+```bash
+git remote add origin git@github.com:you/your-repo-name.git
 git push -u origin main
 ```
 
-Set repository secrets:
-- `Settings` → `Secrets and variables` → `Actions`
-- `SPOTIFY_CLIENT_ID`
-- `SPOTIFY_CLIENT_SECRET`
-- `SPOTIFY_REFRESH_TOKEN`
+### 5. Set up GitHub Secrets
 
-Enable Pages: `Settings` → `Pages` → Source: `GitHub Actions`
+Go to your repo's Settings → Secrets and variables → Actions, and add these three secrets:
 
-## Commands
+- `SPOTIFY_CLIENT_ID` — from your Spotify app
+- `SPOTIFY_CLIENT_SECRET` — from your Spotify app
+- `SPOTIFY_REFRESH_TOKEN` — from step 2
 
-| Command | Description |
+### 6. Enable GitHub Pages
+
+Go to your repo's Settings → Pages. Under "Source", select **GitHub Actions**. That's it — the next time the Collector runs or you push to main, the dashboard will deploy automatically.
+
+## Usage
+
+Once everything's running, here's what you can do:
+
+| Command | What it does |
 |---------|-------------|
-| `go run . collector` | Fetch recently played from Spotify, store in SQLite |
-| `go run . dashboard` | Start web dashboard server (port 9090) |
-| `go run . build-site` | Generate static HTML to `_site/` for GitHub Pages |
-| `go run ./cmd/auth-server/` | OAuth authorization flow to get refresh token |
+| `go run . collector` | Fetches your latest plays from Spotify and saves them |
+| `go run . dashboard` | Starts a local web server so you can browse your history |
+| `go run . build-site` | Generates the static site into the `_site/` folder |
+| `go run ./cmd/auth-server/` | One-time OAuth flow to get your refresh token |
 
-## Project Structure
+The collector runs at 12:00 and 20:00 UTC by default (that's 4 AM / 12 PM Pacific, 7 AM / 3 PM Eastern, 1 PM / 9 PM Central Europe, 5:30 PM / 1:30 AM India). If those don't line up with when you actually listen to music, edit the schedule in `.github/workflows/collector.yml`.
+
+## Project layout
 
 ```
 ├── .github/workflows/
-│   ├── collector.yml    # Runs every 16h: fetch plays, commit DB
-│   ├── ci.yml           # On push: format, vet, build, test
-│   └── pages.yml        # On push: build static site, deploy to Pages
+│   ├── collector.yml    # Fetches plays on a schedule, commits the DB
+│   ├── ci.yml           # Format check, vet, build, and test
+│   └── pages.yml        # Builds the static site and deploys to Pages
 ├── cmd/
-│   ├── collector/          # Collector binary
-│   ├── dashboard/          # Dashboard server binary
+│   ├── collector/       # The collector binary (thin wrapper)
+│   ├── dashboard/       # Dashboard server binary
 │   │   └── templates/
-│   │       └── index.html  # Material 3 dark dashboard template
-│   └── auth-server/        # OAuth setup binary
+│   │       └── index.html
+│   └── auth-server/     # OAuth flow to get your refresh token
 ├── internal/
-│   ├── analytics/          # Daily/monthly stats engine
-│   ├── config/             # Environment-based config
-│   ├── database/           # SQLite layer with migrations
-│   ├── reports/            # Markdown report generator
-│   └── spotify/            # HTTP client, OAuth, collector
-├── migrations/             # Raw SQL migrations (reference)
-├── _site/                  # Generated static site output
-├── music.db                # SQLite database (gitignored)
-├── main.go                 # CLI entry point
-└── go.mod
+│   ├── analytics/       # Computes daily/monthly stats, streaks, etc.
+│   ├── app/             # Shared logic across all entry points
+│   ├── config/          # Reads environment variables
+│   ├── database/        # SQLite layer with auto-migrations
+│   ├── reports/         # Generates markdown reports
+│   └── spotify/         # Spotify API client, OAuth, token management
+├── main.go              # CLI entry point (routes to the right command)
+├── go.mod               # Only 2 direct dependencies
+└── music.db             # SQLite database (gitignored, force-added in CI)
 ```
 
-## Database
+## How the data fits together
 
 ```
 play_events ──> tracks ──> albums
     │               │
     │               └──> track_artists ──> artists
     │
-    └──> Unique index on (track_id, played_at) prevents duplicates
+    └──> each play is unique by (track_id + played_at)
 ```
 
-SQLite with WAL mode. Auto-migrated on every run. ~7.5KB/year growth rate.
-
-## Design
-
-- **Theme:** Material 3 dark (matching `sample.html`)
-- **Fonts:** Geist (headings), Inter (body), JetBrains Mono (labels)
-- **Icons:** Material Symbols
-- **Charts:** N/A (planned: Apache ECharts)
+The database is SQLite with WAL mode. It auto-migrates every time anything runs. For reference, the database grows about 7.5KB per year (it's just text and timestamps).
 
 ## Security
 
-- Secrets never committed. OAuth2 refresh token stored as GitHub Secret.
-- Dashboard binds to all interfaces by default. Restrict: `BIND_ADDR=127.0.0.1:9090`
-- SQLite database gitignored. Listening history stays local.
-- Minimal GitHub Actions permissions: `contents: write` for collector.
+- Secrets are never committed to the repo. They live in GitHub Secrets.
+- The refresh token never appears in logs (except during the one-time setup).
+- The SQLite database is gitignored by default. The Collector workflow force-adds it.
+- The dashboard binds to all interfaces by default. If you want to lock it down locally: `BIND_ADDR=127.0.0.1:8080`
+
+## Notes
+
+- The Spotify API returns up to 50 recently played tracks per call. That covers about 12 hours of listening for most people.
+- If the Collector workflow fails (rate limit, auth issue, etc.), it won't retry — it'll just pick up from where it left off on the next scheduled run.
+- The dashboard is fully client-side. No cookies, no tracking, no analytics. It's just your data, rendered in your browser.
 
 ## License
 

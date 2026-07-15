@@ -3,8 +3,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"sort"
-	"strings"
 
 	_ "modernc.org/sqlite"
 )
@@ -32,12 +30,7 @@ func (db *DB) Migrate() error {
 	}{
 		{1, "init", Migration1},
 		{2, "dedup_index", Migration2},
-		{3, "add_album_id", Migration3},
 	}
-
-	sort.Slice(migrations, func(i, j int) bool {
-		return migrations[i].version < migrations[j].version
-	})
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -59,9 +52,6 @@ func (db *DB) Migrate() error {
 			continue
 		}
 		_, err := tx.Exec(m.sql)
-		if err != nil && m.version == 3 && contains(err.Error(), "duplicate column") {
-			err = nil
-		}
 		if err != nil {
 			return fmt.Errorf("migration %d (%s): %w", m.version, m.name, err)
 		}
@@ -71,10 +61,6 @@ func (db *DB) Migrate() error {
 	}
 
 	return tx.Commit()
-}
-
-func contains(s, substr string) bool {
-	return strings.Contains(s, substr)
 }
 
 const Migration1 = `CREATE TABLE IF NOT EXISTS artists (
@@ -137,5 +123,3 @@ CREATE INDEX IF NOT EXISTS idx_albums_spotify_id     ON albums(spotify_id);`
 
 const Migration2 = `CREATE UNIQUE INDEX IF NOT EXISTS idx_play_events_dedup
     ON play_events(track_id, played_at);`
-
-const Migration3 = `ALTER TABLE tracks ADD COLUMN album_id INTEGER REFERENCES albums(id) ON DELETE SET NULL;`

@@ -68,21 +68,6 @@ function toggleTheme(){var h=document.documentElement,i=document.getElementById(
 </div>
 </section>
 
-</div>
-</main>
-</div>
-</section>
-
-</div>
-</main>
-</div>
-</section>
-
-</div>
-</div>
-</main>
-</div>
-
 <script>
 var DATA=window.__DATA__,allPlays=[],allArtists=[],stats={};
 var pageSize=9,page=0,filtered=[];
@@ -109,7 +94,10 @@ function init(){
       fetch('/api/plays?limit=200').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()}),
       fetch('/api/stats').then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
     ]).then(function(res){
-      allPlays=res[0]||[];stats=res[1]||{};allArtists=stats.topArtists||[];
+      allPlays=res[0]||[];
+      var api=res[1]||{};
+      stats={totalPlays:api.total_plays||0,totalMin:api.total_minutes||0,streak:api.listening_streak||0,daily:api.daily,filterPlays:0,filterMin:0};
+      allArtists=api.topArtists||[];
       filtered=allPlays.slice();
       document.getElementById('loadBtn').textContent='Load More';
       render();
@@ -162,21 +150,6 @@ function renderSidebar(){
   h+='<div class="flex justify-between py-0" style="border-bottom:1px solid var(--border-light)"><span class="font-[\'Inter\'] text-xs" style="color:var(--text-secondary)">Streak</span><span class="font-[\'Geist\'] text-sm font-semibold" style="color:var(--text)" id="fStreak">0</span></div></div></div>';
   document.getElementById('sidePanel').innerHTML=h;
   calInit();
-}
-
-function renderArtists(){
-  var el=document.getElementById('artistList'),h='';
-  for(var i=0;i<allArtists.length;i++){
-    var a=allArtists[i];
-    h+='<div class="flex justify-between items-center py-1.5 px-2 rounded-lg" style="border-bottom:1px solid var(--border-light)">';
-    if(a.spotify_id){
-      h+='<a href="https://open.spotify.com/artist/'+esc(a.spotify_id)+'" target="_blank" rel="noopener" class="track-link font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</a>';
-    }else{
-      h+='<span class="font-[\'Inter\'] text-sm truncate" style="color:var(--text)">'+esc(a.artist_name)+'</span>';
-    }
-    h+='<span class="font-[\'JetBrains_Mono\'] text-xs shrink-0 ml-2" style="color:var(--text-muted)">'+a.play_count+'</span></div>';
-  }
-  if(el)el.innerHTML=h;
 }
 
 function renderCards(){

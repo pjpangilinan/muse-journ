@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -36,66 +37,44 @@ func (c *Client) GetRecentlyPlayed(after string) (*RecentlyPlayedResponse, error
 		u += "&after=" + after
 	}
 
-	resp, err := c.get(u)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
+	var lastErr error
+	for i := 0; i < 3; i++ {
+		resp, err := c.get(u)
+		if err != nil {
+			return nil, err
+		}
 
-	if resp.StatusCode == http.StatusTooManyRequests {
-		retry := resp.Header.Get("Retry-After")
-		return nil, fmt.Errorf("%w: retry after %s sec", ErrRateLimited, retry)
-	}
-	if resp.StatusCode == http.StatusUnauthorized {
-		return nil, ErrUnauthorized
-	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, c.parseError(resp)
-	}
+		if resp.StatusCode == http.StatusTooManyRequests {
+			retry := resp.Header.Get("Retry-After")
+			resp.Body.Close()
+			wait, parseErr := strconv.Atoi(retry)
+			if parseErr != nil || wait <= 0 {
+				wait = 5
+			}
+			lastErr = fmt.Errorf("%w: retry after %d sec", ErrRateLimited, wait)
+			time.Sleep(time.Duration(wait) * time.Second)
+			continue
+		}
 
-	var result RecentlyPlayedResponse
-	if err := decodeJSON(resp.Body, &result); err != nil {
-		return nil, fmt.Errorf("decode recently played: %w", err)
-	}
-	if len(result.Items) == 0 {
+		if resp.StatusCode == http.StatusUnauthorized {
+			resp.Body.Close()
+			return nil, ErrUnauthorized
+		}
+		if resp.StatusCode != http.StatusOK {
+			err := c.parseError(resp)
+			resp.Body.Close()
+			return nil, err
+		}
+
+		var result RecentlyPlayedResponse
+		if err := decodeJSON(resp.Body, &result); err != nil {
+			resp.Body.Close()
+			return nil, fmt.Errorf("decode recently played: %w", err)
+		}
+		resp.Body.Close()
 		return &result, nil
 	}
-	return &result, nil
-}
-
-func (c *Client) GetTrack(id string) (*TrackDetails, error) {
-	if strings.TrimSpace(id) == "" {
-		return nil, ErrNotFound
-	}
-	u := fmt.Sprintf("%s/tracks/%s", baseURL, id)
-	resp, err := c.get(u)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusTooManyRequests {
-		retry := resp.Header.Get("Retry-After")
-		return nil, fmt.Errorf("%w: retry after %s sec", ErrRateLimited, retry)
-	}
-	if resp.StatusCode == http.StatusUnauthorized {
-		return nil, ErrUnauthorized
-	}
-	if resp.StatusCode == http.StatusNotFound {
-		return nil, ErrNotFound
-	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, c.parseError(resp)
-	}
-
-	var track TrackDetails
-	if err := decodeJSON(resp.Body, &track); err != nil {
-		return nil, fmt.Errorf("decode track: %w", err)
-	}
-	if track.ID == "" {
-		return nil, fmt.Errorf("track response missing ID for %s", id)
-	}
-	return &track, nil
+	return nil, lastErr
 }
 
 func (c *Client) get(url string) (*http.Response, error) {

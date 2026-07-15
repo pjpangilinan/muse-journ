@@ -2,7 +2,6 @@ package spotify
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 )
@@ -119,15 +118,4 @@ func (c *Collector) normalize(item PlayHistoryItem) NormalizedPlay {
 		Context:            contextURI,
 		ContextType:        contextType,
 	}
-}
-
-func APIError(err error) string {
-	if err == nil {
-		return ""
-	}
-	msg := err.Error()
-	if strings.Contains(msg, "spotify API error") {
-		return msg
-	}
-	return fmt.Sprintf("unexpected error: %s", msg)
 }

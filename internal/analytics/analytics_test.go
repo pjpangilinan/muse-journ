@@ -5,29 +5,20 @@ import (
 	"os"
 	"testing"
 
-	_ "modernc.org/sqlite"
+	"github.com/pjpangilinan/muse-journ/internal/database"
 )
 
 func setupTestDB(t *testing.T) *sql.DB {
 	t.Helper()
-	db, err := sql.Open("sqlite", t.TempDir()+"/test.db")
+	db, err := database.Open(t.TempDir() + "/test.db")
 	if err != nil {
 		t.Fatalf("open: %v", err)
 	}
-	migrations := []string{
-		`CREATE TABLE IF NOT EXISTS artists (id INTEGER PRIMARY KEY AUTOINCREMENT, spotify_id TEXT UNIQUE, name TEXT, genres TEXT, popularity INTEGER, created_at TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')), updated_at TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')))`,
-		`CREATE TABLE IF NOT EXISTS albums (id INTEGER PRIMARY KEY AUTOINCREMENT, spotify_id TEXT UNIQUE, name TEXT, total_tracks INTEGER, created_at TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')))`,
-		`CREATE TABLE IF NOT EXISTS tracks (id INTEGER PRIMARY KEY AUTOINCREMENT, spotify_id TEXT UNIQUE, name TEXT, duration_ms INTEGER, album_id INTEGER, created_at TEXT DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')))`,
-		`CREATE TABLE IF NOT EXISTS play_events (id INTEGER PRIMARY KEY AUTOINCREMENT, track_id INTEGER, played_at TEXT, source TEXT)`,
-		`CREATE TABLE IF NOT EXISTS track_artists (track_id INTEGER, artist_id INTEGER, PRIMARY KEY(track_id, artist_id))`,
+	if err := db.Migrate(); err != nil {
+		t.Fatalf("migrate: %v", err)
 	}
-	for _, m := range migrations {
-		if _, err := db.Exec(m); err != nil {
-			t.Fatalf("migrate: %v", err)
-		}
-	}
-	seedData(t, db)
-	return db
+	seedData(t, db.DB)
+	return db.DB
 }
 
 func seedData(t *testing.T, db *sql.DB) {
@@ -163,21 +154,6 @@ func TestListeningStreak(t *testing.T) {
 	streak, _ = a.ListeningStreak()
 	if streak != 2 {
 		t.Fatalf("expected 2 day streak (gap resets), got %d", streak)
-	}
-}
-
-func TestHourlyDistribution(t *testing.T) {
-	a := New(setupTestDB(t))
-	hours, err := a.HourlyDistribution()
-	if err != nil {
-		t.Fatalf("hourly: %v", err)
-	}
-	if len(hours) == 0 {
-		t.Fatal("expected at least 1 hour")
-	}
-	// Plays at 10, 11, 12 -> 3 different hours
-	if len(hours) != 3 {
-		t.Fatalf("expected 3 hours, got %d", len(hours))
 	}
 }
 

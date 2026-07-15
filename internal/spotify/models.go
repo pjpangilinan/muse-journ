@@ -1,6 +1,5 @@
 package spotify
 
-import "time"
 
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
@@ -78,19 +77,6 @@ type Context struct {
 	URI  string `json:"uri"`
 }
 
-type TrackDetails struct {
-	ID          string   `json:"id"`
-	Name        string   `json:"name"`
-	DurationMS  int      `json:"duration_ms"`
-	Explicit    bool     `json:"explicit"`
-	DiscNumber  int      `json:"disc_number"`
-	TrackNumber int      `json:"track_number"`
-	Popularity  int      `json:"popularity"`
-	PreviewURL  string   `json:"preview_url"`
-	Album       Album    `json:"album"`
-	Artists     []Artist `json:"artists"`
-}
-
 type NormalizedPlay struct {
 	TrackName          string
 	TrackSpotifyID     string
@@ -111,21 +97,6 @@ type NormalizedPlay struct {
 	ArtistFollowers    []int
 	ArtistPopularities []int
 	PlayedAt           string
-	Device             string
-	Shuffle            bool
-	Repeat             string
 	Context            string
 	ContextType        string
-}
-
-func (t *Track) CoverURL() string {
-	if len(t.Album.Images) > 0 {
-		return t.Album.Images[0].URL
-	}
-	return ""
-}
-
-func MustParseTime(s string) time.Time {
-	t, _ := time.Parse(time.RFC3339, s)
-	return t
 }
