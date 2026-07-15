@@ -60,11 +60,11 @@ func RunDashboard(cfg *config.Config, tmpl *template.Template) error {
 		}
 
 		writeJSON(w, map[string]any{
-			"total_plays":       totalPlays,
-			"total_minutes":     totalMinutes,
-			"listening_streak":  streak,
-			"daily":             daily,
-			"topArtists":        topArtists,
+			"total_plays":      totalPlays,
+			"total_minutes":    totalMinutes,
+			"listening_streak": streak,
+			"daily":            daily,
+			"topArtists":       topArtists,
 		})
 	})
 
