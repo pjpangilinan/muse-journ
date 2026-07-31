@@ -25,7 +25,7 @@ func BuildSite(cfg *config.Config, tmpl *template.Template) error {
 
 	analyticsDB := analytics.New(db.DB)
 
-	plays, err := db.GetRecentPlaysRange(200, 0, "", "")
+	plays, err := db.GetRecentPlaysRange(1000, 0, "", "")
 	if err != nil {
 		return err
 	}
