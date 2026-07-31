@@ -1,12 +1,5 @@
 # GitHub Actions Configuration
 
-## Repository Variables (Settings > Variables > Actions)
-
-| Variable | Default | Description |
-|---|---|---|
-| `COLLECTOR_CRON_1` | `0 4 * * *` | First daily collection (UTC). Default: 12:00 GMT+8 |
-| `COLLECTOR_CRON_2` | `0 12 * * *` | Second daily collection (UTC). Default: 20:00 GMT+8 |
-
 ## Repository Secrets (Settings > Secrets > Actions)
 
 | Secret | Required | Description |
@@ -14,6 +7,21 @@
 | `SPOTIFY_CLIENT_ID` | Yes | Spotify App Client ID |
 | `SPOTIFY_CLIENT_SECRET` | Yes | Spotify App Client Secret |
 | `SPOTIFY_REFRESH_TOKEN` | Yes | OAuth refresh token from `go run ./cmd/auth-server/` |
+
+## Collector Schedule
+
+Default: 12:00 and 20:00 GMT+8 (04:00 and 12:00 UTC).
+
+To change collection times, edit `.github/workflows/collector.yml` directly:
+
+```yaml
+on:
+  schedule:
+    - cron: '0 4 * * *'   # 12:00 GMT+8
+    - cron: '0 12 * * *'  # 20:00 GMT+8
+```
+
+**Note:** GitHub Actions requires static cron strings — repository variables cannot be used in schedule triggers.
 
 ## Timezone Reference
 
@@ -23,11 +31,3 @@
 | 20:00 | `0 12 * * *` |
 | 08:00 | `0 0 * * *` |
 | 00:00 | `0 16 * * *` (previous day) |
-
-## Override Example
-
-To change collection times, go to **Settings > Variables > Actions** and add:
-- `COLLECTOR_CRON_1` = `0 2 * * *` (10:00 GMT+8)
-- `COLLECTOR_CRON_2` = `0 10 * * *` (18:00 GMT+8)
-
-The workflow uses these variables with fallback defaults.
