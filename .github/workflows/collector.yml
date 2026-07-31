@@ -2,10 +2,10 @@ name: Collector
 
 on:
   schedule:
-    # Default: 12:00 and 20:00 GMT+8 = 04:00 and 12:00 UTC
-    # Override via repo variables: COLLECTOR_CRON_1, COLLECTOR_CRON_2
-    - cron: '${{ vars.COLLECTOR_CRON_1 || "0 4 * * *" }}'
-    - cron: '${{ vars.COLLECTOR_CRON_2 || "0 12 * * *" }}'
+    # 12:00 and 20:00 GMT+8 = 04:00 and 12:00 UTC
+    # To change: edit these cron lines directly
+    - cron: '0 4 * * *'
+    - cron: '0 12 * * *'
   workflow_dispatch:
 
 permissions:
